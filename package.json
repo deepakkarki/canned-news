@@ -16,6 +16,7 @@
     "app:prod:update": "git pull origin master && npm run -s app:prod:restart"
   },
   "dependencies": {
+    "feedbin-nodejs": "karllhughes/feedbin-nodejs",
     "shortid": "^2.2.8"
   }
 }
