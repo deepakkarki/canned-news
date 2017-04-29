@@ -1,0 +1,9 @@
+version: "2.1"
+services:
+  sender:
+    build: ../
+    volumes:
+      - ../emails:/src/emails
+      - ../app.js:/src/app.js
+    env_file: ../.env
+    command: node app.js

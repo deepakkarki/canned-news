@@ -1,0 +1,21 @@
+{
+  "name": "feedmailer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "app:local:run": "docker-compose -f docker/compose.local.yml up",
+    "app:local:build": "docker-compose -f docker/compose.local.yml build",
+    "app:local:up": "docker-compose -f docker/compose.local.yml up -d",
+    "app:local:down": "docker-compose -f docker/compose.local.yml down",
+    "app:local:restart": "docker-compose -f docker/compose.local.yml up -d --force-recreate",
+    "app:prod:build": "docker-compose -f docker/compose.prod.yml build",
+    "app:prod:up": "docker-compose -f docker/compose.prod.yml up -d",
+    "app:prod:down": "docker-compose -f docker/compose.prod.yml down",
+    "app:prod:restart": "docker-compose -f docker/compose.prod.yml up -d --force-recreate",
+    "app:prod:deploy": "docker run --env-file docker/.env shiphp/simple-ssh",
+    "app:prod:update": "git pull origin master && npm run -s app:prod:restart"
+  },
+  "dependencies": {
+    "shortid": "^2.2.8"
+  }
+}
