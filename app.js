@@ -62,25 +62,27 @@ Promise.all([
     fs.writeFile(emailFile, renderedEmail.html, (err) => {
       console.log(err ? err : "File saved to " + emailFile);
 
-      /*
       // Send the mail via sendgrid
-      let fromEmail = new sendgrid.Email('admin@jobapis.com');
-      let toEmail = new sendgrid.Email('khughes.me@gmail.com');
-      let subject = "Your daily " + tagName + " update";
-      let content = new sendgrid.Content('text/html', renderedEmail.html);
-      let mail = new sendgrid.Mail(fromEmail, subject, toEmail, content);
+      if (process.env.SENDGRID_API_KEY) {
+        let fromEmail = new sendgrid.Email('admin@jobapis.com');
+        let toEmail = new sendgrid.Email('khughes.me@gmail.com');
+        let subject = "Your daily " + tagName + " update";
+        let content = new sendgrid.Content('text/html', renderedEmail.html);
+        let mail = new sendgrid.Mail(fromEmail, subject, toEmail, content);
 
-      let sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-      let request = sg.emptyRequest({
-        method: 'POST',
-        path: '/v3/mail/send',
-        body: mail.toJSON()
-      });
+        let sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+        let request = sg.emptyRequest({
+          method: 'POST',
+          path: '/v3/mail/send',
+          body: mail.toJSON()
+        });
 
-      sg.API(request, function (err) {
-        console.log(err ? err : "Mail sent to  " + toEmail.email);
-      });
-      */
+        sg.API(request, function (err) {
+          console.log(err ? err : "Mail sent to  " + toEmail.email);
+        });
+      } else {
+        console.log("Mail not sent");
+      }
 
     });
   });
