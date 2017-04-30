@@ -3,7 +3,7 @@
 const startDate = require('./src/startDate');
 const collect = require('./src/collect');
 const filterResults = require('./src/filterResults');
-const sendMail = require('./src/sendMail');
+const Mailer = require('./src/Mailer');
 const path = require('path');
 
 // Get the data from feedbin
@@ -29,7 +29,8 @@ collect({
   console.log("Entries found: " + entries.length);
 
   // Compose and send the email
-  sendMail(entries, options, (err, results) => {
+  const mailer = new Mailer(options);
+  mailer.send(entries, (err, results) => {
     console.log(err ? err : results);
   });
 
