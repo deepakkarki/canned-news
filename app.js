@@ -2,10 +2,15 @@
 const https = require('https');
 const Feedbin = require('feedbin-nodejs');
 const ShortId = require('shortid');
+const EmailTemplate = require('email-templates').EmailTemplate;
+const path = require('path');
+const fs = require('fs');
 
 // Misc constants
 const tagName = "Engineering Blogs";
+const tagDescription = "A daily email from your latest Feedbin posts.";
 const resultsPerPage = 200;
+const baseUrl = 'https://www.example.com/emails/';
 
 // Instantiate Feedbin client
 const feedbin = new Feedbin(process.env.FEEDBIN_USERNAME, process.env.FEEDBIN_PASSWORD);
@@ -39,6 +44,23 @@ Promise.all([
   console.log("Entries found: " + results[1].length);
   console.log("Entries found (filtered): " + entries.length);
 
-});
+  // Generate the email
+  let emailId = ShortId.generate();
+  let templateDirectory = path.join(__dirname, 'templates', 'daily');
+  let emailDirectory = path.join(__dirname, 'emails');
+  let emailContent = new EmailTemplate(templateDirectory);
+  let emailFile = emailDirectory + "/" + emailId + ".html";
 
-// ShortId.generate()
+  emailContent.render({
+    'title': tagName,
+    'description': tagDescription,
+    'link': baseUrl + emailId + '.html',
+    'entries': entries,
+    'date': (new Date).toDateString()
+  }, function (err, renderedEmail) {
+    fs.writeFile(emailFile, renderedEmail.html, (err) => {
+      console.log(err ? err : "File saved to " + emailFile);
+    });
+  })
+
+});

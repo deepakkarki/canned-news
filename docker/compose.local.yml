@@ -4,6 +4,7 @@ services:
     build: ../
     volumes:
       - ../emails:/src/emails
+      - ../templates:/src/templates
       - ../app.js:/src/app.js
     env_file: ../.env
     command: node app.js

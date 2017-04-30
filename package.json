@@ -16,7 +16,9 @@
     "app:prod:update": "git pull origin master && npm run -s app:prod:restart"
   },
   "dependencies": {
+    "email-templates": "^2.5.6",
     "feedbin-nodejs": "karllhughes/feedbin-nodejs",
+    "handlebars": "^3.0.3",
     "shortid": "^2.2.8"
   }
 }
