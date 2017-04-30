@@ -2,12 +2,7 @@ version: "2.1"
 services:
   sender:
     build: ../
-    volumes:
-      - ../emails:/src/emails
-      - ../templates:/src/templates
-      - ../app.js:/src/app.js
-    env_file: ../.env
-    command: node app.js
+    command: echo "Sender ready"
   server:
     image: nginx
     volumes:

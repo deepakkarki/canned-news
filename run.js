@@ -12,6 +12,8 @@ const tagName = "Engineering Blogs";
 const tagDescription = "A daily email from your latest Feedbin posts.";
 const resultsPerPage = 200;
 const baseUrl = 'https://www.example.com/emails/';
+const recipientEmail = 'khughes.me@gmail.com';
+const senderEmail = 'admin@jobapis.com';
 
 // Instantiate Feedbin client
 const feedbin = new Feedbin(process.env.FEEDBIN_USERNAME, process.env.FEEDBIN_PASSWORD);
@@ -64,8 +66,8 @@ Promise.all([
 
       // Send the mail via sendgrid
       if (process.env.SENDGRID_API_KEY) {
-        let fromEmail = new sendgrid.Email('admin@jobapis.com');
-        let toEmail = new sendgrid.Email('khughes.me@gmail.com');
+        let fromEmail = new sendgrid.Email(senderEmail);
+        let toEmail = new sendgrid.Email(recipientEmail);
         let subject = "Your daily " + tagName + " update";
         let content = new sendgrid.Content('text/html', renderedEmail.html);
         let mail = new sendgrid.Mail(fromEmail, subject, toEmail, content);

@@ -1,12 +1,12 @@
 # Prod Dockerfile
 FROM node:7
 
-RUN mkdir /src
-WORKDIR /src
+RUN mkdir /app
+WORKDIR /app
 
-COPY ./ /src
+COPY ./ /app
 RUN npm install --silent
 
 ENV NODE_ENV production
 
-CMD ["node", "app.js"]
+CMD ["node", "run.js"]

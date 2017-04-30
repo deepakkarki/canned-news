@@ -5,9 +5,9 @@
   "scripts": {
     "app:local:build": "docker-compose -f docker/compose.local.yml build",
     "app:local:up": "docker-compose -f docker/compose.local.yml up -d",
-    "app:local:run": "docker-compose -f docker/compose.local.yml up",
+    "app:local:run": "docker run --env-file .env -v $(pwd)/emails:/app/emails -v $(pwd)/templates:/app/templates -v $(pwd)/run.js:/app/run.js docker_sender node run.js",
     "app:local:down": "docker-compose -f docker/compose.local.yml down",
-    "app:local:restart": "docker-compose -f docker/compose.local.yml up -d --force-recreate",
+    "app:local:restart": "docker-compose -f docker/compose.local.yml up -d --force-recreate"
   },
   "dependencies": {
     "email-templates": "^2.5.6",
