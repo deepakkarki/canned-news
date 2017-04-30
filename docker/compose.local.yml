@@ -8,3 +8,9 @@ services:
       - ../app.js:/src/app.js
     env_file: ../.env
     command: node app.js
+  server:
+    image: nginx
+    volumes:
+      - ../emails:/usr/share/nginx/html/emails
+    ports:
+      - 8000:80
