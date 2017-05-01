@@ -20,7 +20,7 @@ function filterResults(results, tagName) {
       return tags.find((tag) =>  entry.feed_id === tag.feed_id);
     });
   } else {
-    return results;
+    return results[1];
   }
 }
 
