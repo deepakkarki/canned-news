@@ -1,5 +1,5 @@
 const filterResults = require("../src/filterResults");
-const faker = require('faker');
+const faker = require('Faker');
 
 describe("filterResults", function () {
 

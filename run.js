@@ -14,11 +14,11 @@ collect({
 
   // Options
   const options = {
-    tagName: "Engineering Blogs",
+    tagName: process.env.FEEDBIN_TAG_NAME,
     tagDescription: "A daily email from your latest Feedbin posts.",
-    baseUrl: 'https://www.example.com/emails/',
-    recipientEmail: 'khughes.me@gmail.com',
-    senderEmail: 'admin@jobapis.com',
+    baseUrl: process.env.BASE_URL + 'emails/',
+    recipientEmail: process.env.RECIPIENT_EMAIL,
+    senderEmail: process.env.SENDER_EMAIL,
     templateDirectory: path.join(__dirname, 'templates', 'daily'),
     emailDirectory: path.join(__dirname, 'emails'),
     sendgridApiKey: process.env.SENDGRID_API_KEY,

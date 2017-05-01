@@ -7,6 +7,7 @@
     "app:local:run": "docker run --env-file .env -v $(pwd)/emails:/app/emails -v $(pwd)/templates:/app/templates -v $(pwd)/src:/app/src -v $(pwd)/run.js:/app/run.js docker_sender node run.js",
     "app:local:down": "docker-compose -f docker/compose.local.yml down",
     "app:local:restart": "docker-compose -f docker/compose.local.yml up -d --force-recreate",
+    "app:test": "docker run docker_sender npm test",
     "test": "jasmine-node spec"
   },
   "dependencies": {

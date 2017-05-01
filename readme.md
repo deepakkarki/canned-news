@@ -18,6 +18,9 @@ I like Feedbin, but I also like getting a daily email summary of my news. I look
 
 This will get all the articles from your Feedbin account for the past 24 hours and compose an email to you.
 
+## Testing
+- Run `npm run -s app:test` to run the test suite within a Docker container.
+
 ## License
 Copyright 2017, Karl Hughes
 

@@ -1,5 +1,5 @@
 const startDate = require("../src/startDate");
-const faker = require('faker');
+const faker = require('Faker');
 
 describe("startDate", function () {
 
