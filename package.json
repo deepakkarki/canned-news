@@ -6,7 +6,14 @@
     "app:local:up": "docker-compose -f docker/compose.local.yml up -d",
     "app:local:run": "docker run --env-file .env -v $(pwd)/emails:/app/emails -v $(pwd)/templates:/app/templates -v $(pwd)/src:/app/src -v $(pwd)/run.js:/app/run.js docker_sender node run.js",
     "app:local:down": "docker-compose -f docker/compose.local.yml down",
-    "app:local:restart": "docker-compose -f docker/compose.local.yml up -d --force-recreate",
+    "app:local:restart": "docker-compose -f docker/compose.local.yml up -d --build",
+
+    "app:prod:build": "docker-compose -f docker/compose.prod.yml build",
+    "app:prod:up": "docker-compose -f docker/compose.prod.yml up -d",
+    "app:prod:run": "docker run --env-file .env -v $(pwd)/emails:/app/emails docker_sender node run.js",
+    "app:prod:down": "docker-compose -f docker/compose.prod.yml down",
+    "app:prod:restart": "docker-compose -f docker/compose.prod.yml up -d --build",
+
     "app:test": "docker run docker_sender npm test",
     "test": "jasmine-node spec"
   },
