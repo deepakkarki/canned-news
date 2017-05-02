@@ -1,15 +1,15 @@
 # Feedbin Mailer
 
-Emails you a summary of new activity in your Feedbin account every day.
+This project emails you a summary of new activity in your Feedbin account every day. Here's [an example of an email sent by this project](http://blogstomail.com:8080/emails/example.html).
 
 I like Feedbin, but I also like getting a daily email summary of my news. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
 
-## Dev Notes
-- This is a work in progress. I'll have stuff cleaned up a lot in the coming weeks.
-- Mostly I'm building this to scratch my own itch, but if you have a feature request make a PR and I'll check it out.
-- You'll need to be running NodeJS 6+ and Docker for this to work. You'll also need a Feedbin and Sendgrid account.
+## Notes
+- You'll need to be running NodeJS 6+ and Docker for this to work.
+- You'll also need a Feedbin and Sendgrid account.
+- I'm building this to scratch my own itch, but if you have a feature request make a PR and I'll check it out.
 
-## Setup
+## Local Setup
 - Clone this repository.
 - Copy the `.env.example` file to `.env` and add your configuration info.
 - Build the Dockerfile: `npm run -s app:local:build`.
@@ -20,6 +20,14 @@ This will get all the articles from your Feedbin account for the past 24 hours a
 
 ## Testing
 - Run `npm run -s app:test` to run the test suite within a Docker container.
+
+## Server Setup
+- Clone this repository.
+- Copy the `.env.example` file to `.env` and add your configuration info.
+- Build the Dockerfile: `npm run -s app:prod:build`.
+- Start up the webserver and cron job: `npm run -s app:prod:up`.
+
+You will start getting mail every day at 9am UTC. You can also run the mailer manually: `npm run -s app:prod:run`.
 
 ## License
 Copyright 2017, Karl Hughes

@@ -60,7 +60,7 @@ class Mailer {
 
         // Send the mail via sendgrid
         if (this.options.sendgridApiKey) {
-          let fromEmail = new sendgrid.Email(this.options.senderEmail);
+          let fromEmail = new sendgrid.Email(this.options.senderEmail, this.options.senderName);
           let toEmail = new sendgrid.Email(this.options.recipientEmail);
           let subject = "Your daily " + this.options.tagName + " update";
           let content = new sendgrid.Content('text/html', renderedEmail.html);

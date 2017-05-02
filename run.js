@@ -19,6 +19,7 @@ collect({
     baseUrl: process.env.BASE_URL + 'emails/',
     recipientEmail: process.env.RECIPIENT_EMAIL,
     senderEmail: process.env.SENDER_EMAIL,
+    senderName: process.env.SENDER_NAME,
     templateDirectory: path.join(__dirname, 'templates', 'daily'),
     emailDirectory: path.join(__dirname, 'emails'),
     sendgridApiKey: process.env.SENDGRID_API_KEY,
