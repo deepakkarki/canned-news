@@ -9,6 +9,7 @@ class Mailer {
 
   constructor(options) {
     this.options = options;
+    this.options.tagName = this.options.tagName ? this.options.tagName : "RSS Feeds";
     this.emailId = ShortId.generate();
     this.emailFile = this.options.emailDirectory + "/" + this.emailId + ".html";
   }
