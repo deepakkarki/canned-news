@@ -1,1 +1,2 @@
-0 0 * * * root /usr/local/bin/node /app/run.js >> /var/log/cron.log 2>&1
+# Cron job that sends emails every day
+0 0 * * * root /bin/bash /app/docker/runner.bash >> /var/log/cron.log 2>&1

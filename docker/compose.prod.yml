@@ -2,15 +2,14 @@ version: "2.1"
 services:
   sender:
     build: ../
+    restart: always
     env_file: ../.env
     volumes:
       - ../emails:/app/emails
-      - ../templates:/app/templates
-      - ../src:/app/src
-      - ../run.js:/app/run.js
     command: cron -f
   server:
     image: nginx
+    restart: always
     volumes:
       - ../emails:/usr/share/nginx/html/emails
     ports:
