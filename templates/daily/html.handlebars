@@ -483,8 +483,11 @@
                     {{#each entries}}
                     <!-- BEGIN ARTICLE // -->
                     <br/>
-                    <h2>{{this.title}}</h2>
-                    <h4>Feed: {{this.feed_id}}, Published: {{this.published}}</h4>
+                      <h2><a href="{{ this.url }}" style="text-decoration: none;">{{this.title}}</a></h2>
+                    <h4>
+                      <a href="{{ this.feed.site_url }}">{{ this.feed.title }}</a>,
+                      {{ this.published }}
+                    </h4>
                     {{this.summary}}
                     <table width="100%" style="margin-top:10px" border="0" cellspacing="0" cellpadding="0">
                       <tr>

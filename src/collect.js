@@ -21,7 +21,8 @@ function collect(options, callback) {
         'since': options.since,
         'per_page': options.perPage
       }
-    })
+    }),
+    feedbin.subscriptions.getAll(),
   ]);
 }
 
