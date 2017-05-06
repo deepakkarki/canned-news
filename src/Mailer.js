@@ -5,6 +5,7 @@ const EmailTemplate = require('email-templates').EmailTemplate;
 const sendgrid = require('sendgrid').mail;
 const fs = require('fs');
 const moment = require('moment');
+const AWS = require('aws-sdk');
 
 class Mailer {
 
@@ -12,7 +13,9 @@ class Mailer {
     this.options = options;
     this.options.tagName = this.options.tagName ? this.options.tagName : "RSS Feeds";
     this.emailId = ShortId.generate();
-    this.emailFile = this.options.emailDirectory + "/" + this.emailId + ".html";
+    this.emailFile = "emails/" + this.emailId + ".html";
+    AWS.config.update({ accessKeyId: process.env.AWS_ID, secretAccessKey: process.env.AWS_SECRET });
+    this.s3 = new AWS.S3();
   }
 
   /**
@@ -41,10 +44,18 @@ class Mailer {
    * @param callback
    */
   save(html, callback) {
-    fs.writeFile(this.emailFile, html, (err) => {
-      console.log(err ? err : "File saved to " + this.emailFile);
+    let bucket = process.env.AWS_BUCKET;
+    this.s3.putObject({
+      Bucket: bucket,
+      Key: this.emailFile,
+      Body: html,
+      ACL: 'public-read',
+      ContentType: 'text/html',
+    }, (err) => {
+      console.log(err ? err : 'File saved to '+process.env.BASE_URL+this.emailFile);
       return callback(err, this.emailFile);
     });
+
   }
 
   /**

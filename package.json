@@ -3,15 +3,14 @@
   "version": "0.2.0",
   "scripts": {
     "app:local:build": "docker build -t karllhughes/feedbin-mailer:local .",
-    "app:local:run": "docker run --env-file .env -v $(pwd)/emails:/app/emails -v $(pwd)/templates:/app/templates -v $(pwd)/src:/app/src -v $(pwd)/run.js:/app/run.js karllhughes/feedbin-mailer:local",
-
+    "app:local:run": "sh docker/run.local.sh",
     "app:prod:run": "sh docker/run.hyper.sh",
     "app:prod:deploy": "sh docker/deploy.hyper.sh",
-
     "app:test": "docker run karllhughes/feedbin-mailer:local npm test",
     "test": "jasmine-node spec"
   },
   "dependencies": {
+    "aws-sdk": "^2.49.0",
     "email-templates": "^2.5.6",
     "feedbin-nodejs": "karllhughes/feedbin-nodejs",
     "handlebars": "^3.0.3",

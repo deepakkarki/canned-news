@@ -1,12 +1,13 @@
 # Feedbin Mailer
 
-This project emails you a summary of new activity in your Feedbin account every day. Here's [an example of an email sent by this project](http://blogstomail.com:8080/emails/example.html).
+This project emails you a summary of new activity in your Feedbin account every day. Here's [an example of an email sent by this project](http://www.blogstomail.com/emails/example.html).
 
 I like Feedbin, but I also like getting a daily email summary of my news. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
 
 ## Notes
 - You'll need to be running NodeJS 6+ and Docker for this to work.
-- You'll also need a Feedbin and Sendgrid account.
+- You'll also need a Feedbin, Sendgrid, and Amazon AWS account.
+- If you want to use my deployment scripts, you'll also need to use Hyper.sh and Codeship. You can definitely modify it to suit your own needs though.
 - I'm building this to scratch my own itch, but if you have a feature request make a PR and I'll check it out.
 
 ## Local Setup
@@ -25,22 +26,18 @@ This will get all the articles from your Feedbin account for the past 24 hours a
 Once you have the Hyper.sh console running locally:
 
 ```bash
-# Create the data volume container
-hyper run --size s3 --name feedbinmailerdata -v /app/emails -v $(pwd)/docker/nginx:/etc/nginx/conf.d -d hyperhq/nfs-server
-
-# Create the nginx server
-hyper run --size s2 -p 80:80 --restart always --name feedbinmailerserver --volumes-from feedbinmailerdata -d nginx
-
-# Attach your Hyper FIP to it. 
-hyper fip attach -f $IP feedbinmailerserver
-
 # Pull the latest image of the mailer
 hyper pull karllhughes/feedbin-mailer
 ```
 
-To manually run the script in production, set up your `.env` file and run `$ docker/run.hyper.sh`
+To manually run the script in production, set up your `.env` file and run 
+
+```bash
+bash docker/run.hyper.sh
+```
 
 To set up a cron job to automatically run the job every day at 9am UTC:
+
 ```bash
 hyper cron create --minute=0 --hour=9 --name feedbinmailercron --env-file .env karllhughes/feedbin-mailer
 ```
