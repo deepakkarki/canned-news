@@ -22,12 +22,28 @@ This will get all the articles from your Feedbin account for the past 24 hours a
 - Run `npm run -s app:test` to run the test suite within a Docker container.
 
 ## Server Setup
-- Clone this repository.
-- Copy the `.env.example` file to `.env` and add your configuration info.
-- Build the Dockerfile: `npm run -s app:prod:build`.
-- Start up the webserver and cron job: `npm run -s app:prod:up`.
+Once you have the Hyper.sh console running locally:
 
-You will start getting mail every day at 9am UTC. You can also run the mailer manually: `npm run -s app:prod:run`.
+```bash
+# Create the data volume container
+hyper run --size s3 --name feedbinmailerdata -v /app/emails -v $(pwd)/docker/nginx:/etc/nginx/conf.d -d hyperhq/nfs-server
+
+# Create the nginx server
+hyper run --size s2 -p 80:80 --restart always --name feedbinmailerserver --volumes-from feedbinmailerdata -d nginx
+
+# Attach your Hyper FIP to it. 
+hyper fip attach -f $IP feedbinmailerserver
+
+# Pull the latest image of the mailer
+hyper pull karllhughes/feedbin-mailer
+```
+
+To manually run the script in production, set up your `.env` file and run `$ docker/run.hyper.sh`
+
+To set up a cron job to automatically run the job every day at 9am UTC:
+```bash
+hyper cron create --minute=0 --hour=9 --name feedbinmailercron --env-file .env karllhughes/feedbin-mailer
+```
 
 ## License
 Copyright 2017, Karl Hughes

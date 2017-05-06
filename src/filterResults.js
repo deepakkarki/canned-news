@@ -1,4 +1,5 @@
 'use strict';
+const moment = require('moment');
 
 const feedbin = new (require('feedbin-nodejs'))(
   process.env.FEEDBIN_USERNAME,
@@ -26,11 +27,16 @@ function filterResults(results, tagName) {
       return tags.find((tag) =>  entry.feed_id === tag.feed_id);
     });
 
-    // Attach feed names to each
     return entries.map((entry) => {
+
+      // Attach feed names to each
       entry.feed = results[2].find(feed => {
         return entry.feed_id === feed.feed_id;
       });
+
+      // Update the date format
+      entry.published = moment(entry.published).format("dddd, MMMM Do");
+
       return entry;
     });
 

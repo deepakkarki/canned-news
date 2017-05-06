@@ -1,2 +1,0 @@
-# Cron job that sends emails every day
-0 9 * * * root /bin/bash /app/docker/runner.bash >> /var/log/cron.log 2>&1

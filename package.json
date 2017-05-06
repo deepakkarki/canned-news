@@ -1,20 +1,21 @@
 {
-  "name": "feedmailer",
-  "version": "0.1.0",
+  "name": "feedbin-mailer",
+  "version": "0.2.0",
   "scripts": {
-    "app:local:build": "docker-compose -f docker/compose.local.yml build",
-    "app:local:up": "docker-compose -f docker/compose.local.yml up -d",
-    "app:local:run": "docker run --env-file .env -v $(pwd)/emails:/app/emails -v $(pwd)/templates:/app/templates -v $(pwd)/src:/app/src -v $(pwd)/run.js:/app/run.js docker_sender bash /app/docker/runner.bash",
-    "app:local:down": "docker-compose -f docker/compose.local.yml down",
-    "app:local:restart": "docker-compose -f docker/compose.local.yml up -d --build",
+    "app:local:build": "docker build -t karllhughes/feedbin-mailer:local .",
+    "app:local:run": "docker run --env-file .env -v $(pwd)/emails:/app/emails -v $(pwd)/templates:/app/templates -v $(pwd)/src:/app/src -v $(pwd)/run.js:/app/run.js karllhughes/feedbin-mailer:local",
 
-    "app:test": "docker run docker_sender npm test",
+    "app:prod:run": "sh docker/run.hyper.sh",
+    "app:prod:deploy": "sh docker/deploy.hyper.sh",
+
+    "app:test": "docker run karllhughes/feedbin-mailer:local npm test",
     "test": "jasmine-node spec"
   },
   "dependencies": {
     "email-templates": "^2.5.6",
     "feedbin-nodejs": "karllhughes/feedbin-nodejs",
     "handlebars": "^3.0.3",
+    "moment": "^2.18.1",
     "sendgrid": "^5.0.1",
     "shortid": "^2.2.8"
   },

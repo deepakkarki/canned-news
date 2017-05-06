@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-- Nothing yet.
+- Feed names to emails.
 
 ### Changed
-- Nothing yet.
+- Production to use [Hyper.sh](https://hyper.sh/) for deployment.
 
 ### Fixed
 - Nothing yet.

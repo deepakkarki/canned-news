@@ -4,6 +4,7 @@ const ShortId = require('shortid');
 const EmailTemplate = require('email-templates').EmailTemplate;
 const sendgrid = require('sendgrid').mail;
 const fs = require('fs');
+const moment = require('moment');
 
 class Mailer {
 
@@ -29,7 +30,7 @@ class Mailer {
       'description': this.options.tagDescription,
       'link': this.options.baseUrl + this.emailId + '.html',
       'entries': entries,
-      'date': (new Date).toDateString()
+      'date': moment().format("dddd, MMMM Do")
     }, callback);
   }
 
