@@ -15,7 +15,7 @@ collect({
   // Options
   const options = {
     tagName: process.env.FEEDBIN_TAG_NAME,
-    tagDescription: "A daily email from your latest Feedbin posts.",
+    tagDescription: "Your Feedbin newsletter",
     baseUrl: process.env.BASE_URL + 'emails/',
     recipientEmail: process.env.RECIPIENT_EMAIL,
     senderEmail: process.env.SENDER_EMAIL,

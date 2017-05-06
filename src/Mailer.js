@@ -27,7 +27,7 @@ class Mailer {
 
     return emailContent.render({
       'title': this.options.tagName,
-      'description': this.options.tagDescription,
+      'description': this.options.tagDescription + " for " + moment().format("dddd, MMMM Do"),
       'link': this.options.baseUrl + this.emailId + '.html',
       'entries': entries,
       'date': moment().format("dddd, MMMM Do")
@@ -63,7 +63,7 @@ class Mailer {
         if (this.options.sendgridApiKey) {
           let fromEmail = new sendgrid.Email(this.options.senderEmail, this.options.senderName);
           let toEmail = new sendgrid.Email(this.options.recipientEmail);
-          let subject = "Your daily " + this.options.tagName + " update";
+          let subject = moment().format("dddd") + "'s " + this.options.tagName + " update";
           let content = new sendgrid.Content('text/html', renderedEmail.html);
           let mail = new sendgrid.Mail(fromEmail, subject, toEmail, content);
 
