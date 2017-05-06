@@ -7,16 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-- Feed names to emails.
+- Nothing yet.
 
 ### Changed
-- Production to use [Hyper.sh](https://hyper.sh/) for deployment.
+- Nothing yet.
 
 ### Fixed
 - Nothing yet.
 
 ### Removed
 - Nothing yet.
+
+## [0.2.0] - 2017-05-06
+### Added
+- Feed names to emails.
+- Better date formatting.
+
+### Changed
+- Codeship for CI.
+- Production to use [Hyper.sh](https://hyper.sh/) for deployment.
+- Moved emails to AWS S3.
 
 ## [0.1.0] - 2017-05-01
 
