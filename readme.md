@@ -25,10 +25,9 @@ This will get all the articles from your Feedbin account for the past 24 hours a
 ## Server Setup
 Once you have the Hyper.sh console running locally:
 
-```bash
-# Pull the latest image of the mailer
-hyper pull karllhughes/feedbin-mailer
-```
+- Set up your `.env` file for production.
+- Encrypt your Docker config: `jet encrypt ${HOME}/.docker/config.json docker/dockercfg.encrypted`.
+- Run the deployer container: `npm run -s app:prod:deploy`.
 
 To manually run the script in production, set up your `.env` file and run 
 

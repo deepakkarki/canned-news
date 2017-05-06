@@ -5,7 +5,7 @@
     "app:local:build": "docker build -t karllhughes/feedbin-mailer:local .",
     "app:local:run": "sh docker/run.local.sh",
     "app:prod:run": "sh docker/run.hyper.sh",
-    "app:prod:deploy": "sh docker/deploy.hyper.sh",
+    "app:prod:deploy": "docker run --rm --env-file $(pwd)/.env -v $(pwd)/docker:/docker chickenzord/hyper sh /docker/deploy.hyper.sh",
     "app:test": "sh docker/test.local.sh",
     "test": "jasmine-node spec"
   },
