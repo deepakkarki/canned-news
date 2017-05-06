@@ -5,6 +5,7 @@ describe("filterResults", function () {
 
   it("should filter entries by tag name", function () {
     let feedId = faker.random.number(1, 10);
+    let feedId2 = faker.random.number(11, 100);
     let items = [
       [ // Tags
         {
@@ -13,7 +14,7 @@ describe("filterResults", function () {
         },
         {
           name: faker.Lorem.sentence(),
-          feed_id: faker.random.number(11, 100),
+          feed_id: feedId2,
         },
       ],
       [ // Entries
@@ -23,13 +24,23 @@ describe("filterResults", function () {
         },
         {
           title: faker.Lorem.sentence(),
-          feed_id: faker.random.number(11, 100),
+          feed_id: feedId2,
         },
         {
           title: faker.Lorem.sentence(),
           feed_id: feedId,
         },
-      ]
+      ],
+      [ // Feeds
+        {
+          name: faker.Lorem.sentence(),
+          id: feedId,
+        },
+        {
+          name: faker.Lorem.sentence(),
+          id: feedId2,
+        },
+      ],
     ];
 
     let tag = items[0][0];

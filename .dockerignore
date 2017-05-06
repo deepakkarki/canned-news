@@ -1,5 +1,6 @@
-node_modules
+.DS_Store
+.env
 .idea
 codeship.aes
-.env
-.DS_Store
+docker
+node_modules

@@ -6,7 +6,7 @@
     "app:local:run": "sh docker/run.local.sh",
     "app:prod:run": "sh docker/run.hyper.sh",
     "app:prod:deploy": "sh docker/deploy.hyper.sh",
-    "app:test": "docker run karllhughes/feedbin-mailer:local npm test",
+    "app:test": "sh docker/test.local.sh",
     "test": "jasmine-node spec"
   },
   "dependencies": {
