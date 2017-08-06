@@ -8,8 +8,8 @@ const path = require('path');
 
 // Get the data from feedbin
 collect({
-  perPage: 200,
-  since: startDate()
+  perPage: 600,
+  since: startDate(process.env.DAYS_BACK)
 }).then((entries) => {
 
   // Options
