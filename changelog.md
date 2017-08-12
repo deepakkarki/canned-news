@@ -6,11 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.0]
+
 ### Added
-- Nothing yet.
+- Collector service.
+- Added Postgres for permanent data storage
 
 ### Changed
-- Nothing yet.
+- Rebuilt Mailer service to work with collector. 
 
 ### Fixed
 - Nothing yet.

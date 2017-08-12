@@ -1,0 +1,10 @@
+{
+  "name": "collector",
+  "private": true,
+  "dependencies": {
+    "feedbin-nodejs": "github:karllhughes/feedbin-nodejs",
+    "pg": "^7.1.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.4.3"
+  }
+}

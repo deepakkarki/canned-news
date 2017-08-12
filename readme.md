@@ -1,16 +1,29 @@
 # Feedbin Mailer
 
-This project emails you a summary of new activity in your Feedbin account every day. Here's [an example of an email sent by this project](http://www.blogstomail.com/emails/example.html).
+This project allows you to create a newsletter from new activity in your Feedbin account. Here's [an example of an email sent by this project](http://www.blogstomail.com/emails/example.html).
 
-I like Feedbin, but I also like getting a daily email summary of my news. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
+## Why?
 
-## Notes
-- You'll need to be running NodeJS 6+ and Docker for this to work.
-- You'll also need a Feedbin, Sendgrid, and Amazon AWS account.
-- If you want to use my deployment scripts, you'll also need to use Hyper.sh and Codeship. You can definitely modify it to suit your own needs though.
-- I'm building this to scratch my own itch, but if you have a feature request make a PR and I'll check it out.
+I like [Feedbin](https://feedbin.com/), but I also like getting a daily email summary of my news and blogs. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
+
+## Requirements
+
+- Docker
+- Feedbin
+- Sendgrid
+- Amazon S3
+- If you want to use the included deployment scripts, you'll also need to use Hyper.sh and Codeship. You can definitely modify it to suit your own needs though.
+
+## Architecture
+
+This project includes two small Node applications:
+
+- `/collector`
+- `/mailer`
+- `/migrations` not working yet
 
 ## Local Setup
+
 - Clone this repository.
 - Copy the `.env.example` file to `.env` and add your configuration info.
 - Build the Dockerfile: `npm run -s app:local:build`.
@@ -23,6 +36,7 @@ This will get all the articles from your Feedbin account for the past 24 hours a
 - Run `npm run -s app:test` to run the test suite within a Docker container.
 
 ## Server Setup
+
 Once you have the Hyper.sh console running locally:
 
 - Set up your `.env` file for production.

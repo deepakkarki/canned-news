@@ -4,3 +4,4 @@
 codeship.aes
 docker
 node_modules
+.data
