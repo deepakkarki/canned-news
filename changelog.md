@@ -6,20 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [1.0.0]
+### Added
+- Nothing yet.
+
+## [1.0.0] - 2017-08-13
 
 ### Added
-- Collector service.
-- Added Postgres for permanent data storage
+- Collector service separated from mailer service.
+- Added Postgres for permanent data storage.
 
 ### Changed
-- Rebuilt Mailer service to work with collector. 
-
-### Fixed
-- Nothing yet.
-
-### Removed
-- Nothing yet.
+- Rebuilt Mailer service to work with collector.
 
 ## [0.2.0] - 2017-05-06
 ### Added
