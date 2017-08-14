@@ -50,22 +50,25 @@ Coming soon!
 
 ### Deployment
 
-Once you have the Hyper.sh console running locally:
+- Build and push the latest updates to Docker Hub: `npm run -s app:prod:build && npm run -s app:prod:push`.
+- Create a `.env.prod` file for production.
+- Run the deployer: `npm run -s app:prod:deploy`.
+- Bring up the database container (first time): `npm run -s db:prod:up`.
+- To manually run the collector script in production: `npm run -s collector:prod:run`.
+- To manually run the mailer script in production: `npm run -s mailer:prod:run`.
 
-- Set up your `.env` file for production.
-- Encrypt your Docker config: `jet encrypt ${HOME}/.docker/config.json docker/dockercfg.encrypted`.
-- Run the deployer container: `npm run -s app:prod:deploy`.
+Typically you will want to use a cron job to automatically run these commands.
 
-To manually run the script in production, set up your `.env` file and run 
+Run the mailer daily at 9am UTC:
 
 ```bash
-bash docker/run.hyper.sh
+hyper cron create --minute=0 --hour=9 --name fbm-mailer-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer
 ```
 
-To set up a cron job to automatically run the job every day at 9am UTC:
+And run the collector every hour:
 
 ```bash
-hyper cron create --minute=0 --hour=9 --name feedbinmailercron --env-file .env karllhughes/feedbin-mailer
+hyper cron create --minute=15 --hour=* --name fbm-collector-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector
 ```
 
 ## Contributing
