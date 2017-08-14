@@ -3,22 +3,12 @@ const models = require('./lib/models');
 const Mailer = require('./lib/Mailer');
 const path = require('path');
 
-function run() {
+async function run() {
   // Get all the tags
-  return models.Tag.findAll().then(tags => Promise.all(tags.map(async tag => {
+  const tags = await models.Tag.findAll();
 
-    // Set up the options for input
-    const options = {
-      tagName: tag.name,
-      tagDescription: tag.description,
-      tagImage: tag.image_url,
-      baseUrl: process.env.BASE_URL + 'emails/',
-      recipientEmail: process.env.FEEDBIN_USERNAME,
-      senderEmail: process.env.SENDER_EMAIL,
-      senderName: process.env.SENDER_NAME,
-      templateDirectory: path.join(__dirname, 'templates', 'daily'),
-      sendgridApiKey: process.env.SENDGRID_API_KEY,
-    };
+  // Send an email for each one
+  tags.map(async tag => {
 
     // Get the entries that correspond to it
     const entries = await getEntries(tag);
@@ -27,13 +17,15 @@ function run() {
 
     // Compose and send the email
     if (entries && entries.length) {
-      const mailer = new Mailer(options);
+      const mailer = new Mailer(getOptions(tag));
       return new Promise((resolve) => {
         mailer.send(entries, resolve);
       });
     }
 
-  })));
+  });
+
+  return tags;
 }
 
 async function getEntries(tag) {
@@ -52,6 +44,21 @@ async function getEntries(tag) {
       where: { tag_id: tag.id }
     }]
   });
+}
+
+function getOptions(tag) {
+  // Set up the options for input
+  const options = {
+    tagName: tag.name,
+    tagDescription: tag.description,
+    tagImage: tag.image_url,
+    baseUrl: process.env.BASE_URL + 'emails/',
+    recipientEmail: process.env.FEEDBIN_USERNAME,
+    senderEmail: process.env.SENDER_EMAIL,
+    senderName: process.env.SENDER_NAME,
+    templateDirectory: path.join(__dirname, 'templates', 'daily'),
+    sendgridApiKey: process.env.SENDGRID_API_KEY,
+  };
 }
 
 run().then(() => {
