@@ -9,16 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Nothing yet.
 
+## [1.0.0] - 2017-08-13
+
 ### Changed
-- Nothing yet.
+- Rebuilt project to use two services: a collector and a mailer.
 
-### Fixed
-- Nothing yet.
-
-### Removed
-- Nothing yet.
+### Added
+- Added Postgres for local article storage.
 
 ## [0.2.0] - 2017-05-06
+
 ### Added
 - Feed names to emails.
 - Better date formatting.

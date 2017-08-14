@@ -3,3 +3,5 @@
 node_modules
 .env
 npm-debug.log
+.data
+.env.prod

@@ -1,26 +1,25 @@
 {
   "name": "feedbin-mailer",
-  "version": "0.2.0",
   "scripts": {
-    "app:local:build": "docker build -t karllhughes/feedbin-mailer:local .",
-    "app:local:run": "sh docker/run.local.sh",
-    "app:prod:build": "docker build -t karllhughes/feedbin-mailer .",
-    "app:prod:deploy": "docker run --rm --env-file $(pwd)/.env -v $(pwd)/docker:/docker chickenzord/hyper sh /docker/deploy.hyper.sh",
-    "app:prod:run": "sh docker/run.hyper.sh",
-    "app:test": "sh docker/test.local.sh",
-    "test": "jasmine-node spec"
-  },
-  "dependencies": {
-    "aws-sdk": "^2.49.0",
-    "email-templates": "^2.5.6",
-    "feedbin-nodejs": "karllhughes/feedbin-nodejs",
-    "handlebars": "^3.0.3",
-    "moment": "^2.18.1",
-    "sendgrid": "^5.0.1",
-    "shortid": "^2.2.8"
-  },
-  "devDependencies": {
-    "Faker": "^0.7.2",
-    "jasmine-node": "^1.14.5"
+    "app:local:build": "npm run -s mailer:local:build && npm run -s collector:local:build",
+    "app:local:push": "docker push karllhughes/fbm-mailer && docker push karllhughes/fbm-collector",
+
+    "app:prod:deploy": "docker run --rm --env-file $(pwd)/.env.prod -v $(pwd)/docker:/docker chickenzord/hyper sh /docker/deploy.hyper.sh",
+    "collector:prod:run": "hyper run --size s3 --name fbm-collector-1 --rm --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector",
+    "mailer:prod:run": "hyper run --size s3 --name fbm-mailer-1 --rm --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer",
+
+    "db:prod:up": "sh docker/dbup.hyper.sh",
+    "db:prod:migrate": "hyper exec -it fbm-postgres-1 psql -U postgres -a -f /database/schema.sql",
+    "db:prod:down": "hyper rm -f fbm-postgres-1",
+
+    "db:local:up": "docker run -d --rm --name fbm-postgres -p 5432:5432 --env-file $(pwd)/.env -v $(pwd)/.data:/var/lib/postgresql/data -v $(pwd)/database:/database postgres:9.6",
+    "db:local:migrate": "docker exec -it fbm-postgres psql -U postgres -a -f /database/schema.sql",
+    "db:local:down": "docker rm -f fbm-postgres",
+
+    "collector:local:build": "docker build -t karllhughes/fbm-collector ./collector",
+    "collector:local:run": "docker run --rm --name fbm-collector --env-file $(pwd)/.env -v $(pwd)/collector:/app --link fbm-postgres:postgres karllhughes/fbm-collector",
+
+    "mailer:local:build": "docker build -t karllhughes/fbm-mailer ./mailer",
+    "mailer:local:run": "docker run --rm --name fbm-mailer --env-file $(pwd)/.env -v $(pwd)/mailer:/app --link fbm-postgres:postgres karllhughes/fbm-mailer"
   }
 }

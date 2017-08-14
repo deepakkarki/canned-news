@@ -1,47 +1,82 @@
 # Feedbin Mailer
 
-This project emails you a summary of new activity in your Feedbin account every day. Here's [an example of an email sent by this project](http://www.blogstomail.com/emails/example.html).
+This project allows you to create newsletters from new activity in your Feedbin RSS feeds. Here's [an example of an email sent by this project](https://www.blogstomail.com/emails/example.html).
 
-I like Feedbin, but I also like getting a daily email summary of my news. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
+## Why?
 
-## Notes
-- You'll need to be running NodeJS 6+ and Docker for this to work.
-- You'll also need a Feedbin, Sendgrid, and Amazon AWS account.
-- If you want to use my deployment scripts, you'll also need to use Hyper.sh and Codeship. You can definitely modify it to suit your own needs though.
-- I'm building this to scratch my own itch, but if you have a feature request make a PR and I'll check it out.
+I like [Feedbin](https://feedbin.com/), but I also like getting a daily email summary of my news and blogs. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
 
-## Local Setup
+## Development
+
+### Requirements
+
+This project relies on a lot of external services. This makes it easy to maintain, but it's also a decent amount of work to get set up. At some point I'd like to make this easier, but it is what it is.
+
+- Feedbin - The whole project relies on you having a paid Feedbin account
+- Sendgrid - Sends emails
+- Amazon S3 - Hosts static HTML versions of your emails
+- Node/NPM - Setup scripts are run in NPM
+- Docker - Used for local development
+- Hyper.sh - Container hosting and cron jobs
+
+### Architecture
+
+This project includes two small Node applications:
+
+- **Collector** (`/collector`) - Responsible for collecting new entries from Feedbin every hour and updating the list of feeds for each of your tags.
+- **Mailer** (`/mailer`) - Sends an email based on the preferences set for your newsletters in the `tags` table.
+
+You can find bash scripts for Docker in the `/docker` folder and a database schema file in the `/database` directory.
+
+### Local Setup
+
 - Clone this repository.
 - Copy the `.env.example` file to `.env` and add your configuration info.
-- Build the Dockerfile: `npm run -s app:local:build`.
-- Start up the webserver: `npm run -s app:local:up`.
-- Run the mailer: `npm run -s app:local:run`.
+  - You will need to have API keys for Amazon AWS, a bucket in S3, a Sendgrid API key, and a Feedbin account.
+  - You will also need to have a domain name pointed at your S3 bucket if you want to view the emails offline.
+  - The Hyper.sh credentials are only required for deploying to production. 
+- Build the Dockerfile for the collector: `npm run -s collector:local:build`.
+- Build the Dockerfile for the mailer: `npm run -s mailer:local:build`.
+- Start the database container: `npm run -s db:local:up`.
+- Run the migrations (first time only): `npm run -s db:local:migrate`.
+- Run the collector: `npm run -s collector:local:run`.
+- Run the mailer: `npm run -s mailer:local:run`.
 
-This will get all the articles from your Feedbin account for the past 24 hours and compose an email to you.
+This will get you the latest the articles from your Feedbin account and compose an email to you.
 
-## Testing
-- Run `npm run -s app:test` to run the test suite within a Docker container.
+### Testing
 
-## Server Setup
-Once you have the Hyper.sh console running locally:
+Coming soon!
 
-- Set up your `.env` file for production.
-- Encrypt your Docker config: `jet encrypt ${HOME}/.docker/config.json docker/dockercfg.encrypted`.
-- Run the deployer container: `npm run -s app:prod:deploy`.
+### Deployment
 
-To manually run the script in production, set up your `.env` file and run 
+- Build and push the latest updates to Docker Hub: `npm run -s app:prod:build && npm run -s app:prod:push`.
+- Create a `.env.prod` file for production.
+- Run the deployer: `npm run -s app:prod:deploy`.
+- Bring up the database container (first time): `npm run -s db:prod:up`.
+- To manually run the collector script in production: `npm run -s collector:prod:run`.
+- To manually run the mailer script in production: `npm run -s mailer:prod:run`.
+
+Typically you will want to use a cron job to automatically run these commands.
+
+Run the mailer daily at 9am UTC:
 
 ```bash
-bash docker/run.hyper.sh
+hyper cron create --minute=0 --hour=9 --name fbm-mailer-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer
 ```
 
-To set up a cron job to automatically run the job every day at 9am UTC:
+And run the collector every hour:
 
 ```bash
-hyper cron create --minute=0 --hour=9 --name feedbinmailercron --env-file .env karllhughes/feedbin-mailer
+hyper cron create --minute=15 --hour=* --name fbm-collector-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector
 ```
+
+## Contributing
+
+While this project is primary to scratch my own itch, you're welcome to suggest improvements. Just make a PR or create an issue.
 
 ## License
+
 Copyright 2017, Karl Hughes
 
 >   Licensed under the Apache License, Version 2.0 (the "License");

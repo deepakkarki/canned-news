@@ -1,9 +1,0 @@
-web:
-  build:
-    image: karllhughes/feedbin-mailer
-    dockerfile: Dockerfile
-deployer:
-  image: chickenzord/hyper
-  volumes:
-    - docker:/docker
-  encrypted_env_file: /docker/.env.encrypted

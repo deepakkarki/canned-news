@@ -12,6 +12,7 @@ class Mailer {
   constructor(options) {
     this.options = options;
     this.options.tagName = this.options.tagName ? this.options.tagName : "RSS Feeds";
+    this.options.tagImage = this.options.tagImage ? this.options.tagImage : "https://i.imgur.com/Wx6auJ8.jpg";
     this.emailId = ShortId.generate();
     this.emailFile = "emails/" + this.emailId + ".html";
     AWS.config.update({ accessKeyId: process.env.AWS_ID, secretAccessKey: process.env.AWS_SECRET });
@@ -30,6 +31,7 @@ class Mailer {
 
     return emailContent.render({
       'title': this.options.tagName,
+      'image': this.options.tagImage,
       'description': this.options.tagDescription + " for " + moment().format("dddd, MMMM Do"),
       'link': this.options.baseUrl + this.emailId + '.html',
       'entries': entries,
