@@ -5,6 +5,7 @@ const sequelize = new Sequelize('postgres', 'postgres', process.env.POSTGRES_PAS
   dialect: 'postgres',
   logging: false,
 });
+const moment = require('moment');
 
 const Tag = sequelize.define('tag', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
@@ -44,6 +45,13 @@ const Entry = sequelize.define('entry', {
   feedbin_id: Sequelize.INTEGER,
 }, {
   underscored: true,
+  getterMethods: {
+    feedbin_published_at() {
+      return moment(this.getDataValue('feedbin_published_at')).format("MMMM Do [at] h:mm a");
+    }
+  },
 });
+
+Entry.belongsTo(Feed, {foreignKey: 'feedbin_feed_id', targetKey: 'feedbin_id'});
 
 module.exports = { Tag, Feed, Entry, sequelize };

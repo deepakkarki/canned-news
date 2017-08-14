@@ -21,13 +21,7 @@ function run() {
     };
 
     // Get the entries that correspond to it
-    const frequency = tag.frequency ? tag.frequency : 1;
-    const date = (new Date(new Date().getTime() - (frequency * 24 * 60 * 60 * 1000))).toISOString();
-    const rawQuery = "select entries.* from entries " +
-      "join feeds on entries.feedbin_feed_id = feeds.feedbin_id " +
-      "where feeds.tag_id = " + tag.id + " " +
-      "and entries.feedbin_published_at > '" + date + "'";
-    const entries = await models.sequelize.query(rawQuery, { model: models.Entry });
+    const entries = await getEntries(tag);
 
     console.log(entries.length + " entries found for tag '" + tag.name + "'");
 
@@ -40,6 +34,24 @@ function run() {
     }
 
   })));
+}
+
+async function getEntries(tag) {
+  // Add 1-hour margin of error to query.
+  const hoursBack = ((tag.frequency ? tag.frequency : 1) * 24) + 1;
+  const minDate = (new Date(new Date().getTime() - (hoursBack * 60 * 60 * 1000))).toISOString();
+
+  return models.Entry.findAll({
+    where: {
+      feedbin_published_at: {
+        $gt: minDate
+      }
+    },
+    include: [{
+      model: models.Feed,
+      where: { tag_id: tag.id }
+    }]
+  });
 }
 
 run().then(() => {
