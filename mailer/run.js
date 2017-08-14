@@ -8,7 +8,7 @@ async function run() {
   const tags = await models.Tag.findAll();
 
   // Send an email for each one
-  tags.map(async tag => {
+  return Promise.all(tags.map(async tag => {
 
     // Get the entries that correspond to it
     const entries = await getEntries(tag);
@@ -22,10 +22,7 @@ async function run() {
         mailer.send(entries, resolve);
       });
     }
-
-  });
-
-  return tags;
+  }));
 }
 
 async function getEntries(tag) {
@@ -47,8 +44,7 @@ async function getEntries(tag) {
 }
 
 function getOptions(tag) {
-  // Set up the options for input
-  const options = {
+  return {
     tagName: tag.name,
     tagDescription: tag.description,
     tagImage: tag.image_url,

@@ -2,6 +2,7 @@
   "name": "feedbin-mailer",
   "scripts": {
     "app:prod:build": "docker build -t karllhughes/feedbin-mailer .",
+    "app:prod:push": "docker push karllhughes/feedbin-mailer karllhughes/feedbin-collector",
     "app:prod:deploy": "docker run --rm --env-file $(pwd)/.env -v $(pwd)/docker:/docker chickenzord/hyper sh /docker/deploy.hyper.sh",
     "app:prod:run": "sh docker/run.hyper.sh",
 
