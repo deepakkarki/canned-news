@@ -43,6 +43,11 @@ const Entry = sequelize.define('entry', {
   feedbin_created_at: Sequelize.DATE,
   feedbin_feed_id: Sequelize.INTEGER,
   feedbin_id: Sequelize.INTEGER,
+  stumbleupon: Sequelize.INTEGER,
+  pinterest: Sequelize.INTEGER,
+  linkedin: Sequelize.INTEGER,
+  facebook: Sequelize.INTEGER,
+  sharedcount_stats: Sequelize.JSONB,
 }, {
   underscored: true,
   getterMethods: {

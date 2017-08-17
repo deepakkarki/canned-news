@@ -1,5 +1,5 @@
 'use strict';
-const models = require('./lib/models');
+const models = require('fbm-shared/models');
 const Mailer = require('./lib/Mailer');
 const path = require('path');
 
@@ -59,8 +59,8 @@ function getOptions(tag) {
 
 run().then(() => {
   console.log("Mailer job complete.");
-  process.exit(1);
+  process.exit(0);
 }).catch(e => {
   console.error(e);
-  process.exit(0);
+  process.exit(1);
 });
