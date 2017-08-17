@@ -2,11 +2,12 @@
   "name": "feedbin-mailer",
   "scripts": {
     "app:local:build": "bash docker/build.local.sh",
-    "app:local:push": "docker push karllhughes/fbm-mailer && docker push karllhughes/fbm-collector",
+    "app:local:push": "docker push karllhughes/fbm-mailer && docker push karllhughes/fbm-collector && docker push karllhughes/fbm-social",
 
     "app:prod:deploy": "docker run --rm --env-file $(pwd)/.env.prod -v $(pwd)/docker:/docker chickenzord/hyper sh /docker/deploy.hyper.sh",
     "collector:prod:run": "hyper run --size s3 --name fbm-collector-1 --rm --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector",
     "mailer:prod:run": "hyper run --size s3 --name fbm-mailer-1 --rm --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer",
+    "social:prod:run": "hyper run --size s3 --name fbm-social-1 --rm --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-social",
 
     "db:prod:up": "sh docker/dbup.hyper.sh",
     "db:prod:migrate": "hyper exec -it fbm-postgres-1 psql -U postgres -a -f /database/schema.sql",
