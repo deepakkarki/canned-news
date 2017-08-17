@@ -1,32 +1,34 @@
-# Feedbin Mailer
+# Blogs To Mail
 
-This project allows you to create newsletters from new activity in your Feedbin RSS feeds. Here's [an example of an email sent by this project](https://www.blogstomail.com/emails/example.html).
+This project allows you to create newsletters from new activity in RSS feeds you follow. Here's [an example of an email sent by this project](https://www.blogstomail.com/emails/rJZJvn97db.html).
 
 ## Why?
 
-I like [Feedbin](https://feedbin.com/), but I also like getting a daily email summary of my news and blogs. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
+I like RSS feeds and the [Feedbin Reader](https://feedbin.com/), but I also like getting a daily email summary of my news and blogs. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
 
 ## Development
 
 ### Requirements
 
-This project relies on a lot of external services. This makes it easy to maintain, but it's also a decent amount of work to get set up. At some point I'd like to make this easier, but it is what it is.
+This project relies on a lot of external services. This makes it easy to build, but it's also a decent amount of work to get set up. At some point I'd like to make this easier, but it is what it is.
 
 - Feedbin - The whole project relies on you having a paid Feedbin account
 - Sendgrid - Sends emails
 - Amazon S3 - Hosts static HTML versions of your emails
+- SharedCount - Aggregates social data about posts
 - Node/NPM - Setup scripts are run in NPM
-- Docker - Used for local development
+- Docker - Used for local development and deployment
 - Hyper.sh - Container hosting and cron jobs
 
 ### Architecture
 
-This project includes two small Node applications:
+This project includes several Node microservices:
 
 - **Collector** (`/collector`) - Responsible for collecting new entries from Feedbin every hour and updating the list of feeds for each of your tags.
+- **Social** (`/social`) - Grabs data daily from SharedCount about social activity on each article.
 - **Mailer** (`/mailer`) - Sends an email based on the preferences set for your newsletters in the `tags` table.
 
-You can find bash scripts for Docker in the `/docker` folder and a database schema file in the `/database` directory.
+You can find bash scripts for Docker in the `/docker` folder and a database schema file in the `/database` directory. There is also a `/shared` directory for shared Node scripts.
 
 ### Local Setup
 
