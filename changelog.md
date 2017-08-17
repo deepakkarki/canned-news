@@ -9,10 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Nothing yet.
 
-## [1.1.0] - 2017-08-??
+## [1.1.0] - 2017-08-17
 
 ### Added
 - Social data collector.
+- Social media counts to email.
 
 ### Changed
 - Moved DB models to shared directory.
