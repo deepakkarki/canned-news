@@ -1,5 +1,5 @@
 'use strict';
-const models = require('./models');
+const models = require('fbm-shared/models');
 
 async function transformAndSaveTags(taggings) {
   console.log(taggings.length + " Taggings Found");

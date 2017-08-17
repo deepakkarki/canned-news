@@ -56,6 +56,7 @@ Coming soon!
 - Bring up the database container (first time): `npm run -s db:prod:up`.
 - To manually run the collector script in production: `npm run -s collector:prod:run`.
 - To manually run the mailer script in production: `npm run -s mailer:prod:run`.
+- To manually run the social script in production: `npm run -s social:prod:run`.
 
 Typically you will want to use a cron job to automatically run these commands.
 
@@ -69,6 +70,12 @@ And run the collector every hour:
 
 ```bash
 hyper cron create --minute=15 --hour=* --name fbm-collector-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector
+```
+
+And run the social collector every day:
+
+```bash
+hyper cron create --minute=45 --hour=8 --name fbm-social-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-social
 ```
 
 ## Contributing

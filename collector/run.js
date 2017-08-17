@@ -26,8 +26,8 @@ function run() {
 
 run().then(() => {
   console.log("Collected entries from the past " + hoursBack + " hours.");
-  process.exit(1);
+  process.exit(0);
 }).catch(e => {
   console.error(e);
-  process.exit(0);
+  process.exit(1);
 });
