@@ -2,12 +2,12 @@
   "name": "fbm-mailer",
   "private": true,
   "dependencies": {
-    "aws-sdk": "^2.49.0",
-    "email-templates": "^2.5.6",
+    "aws-sdk": "^2.102.0",
+    "email-templates": "^2.7.1",
+    "fbm-shared": "file:../shared",
     "handlebars": "^3.0.3",
     "moment": "^2.18.1",
     "sendgrid": "^5.0.1",
-    "shortid": "^2.2.8",
-    "fbm-shared": "file:../shared"
+    "shortid": "^2.2.8"
   }
 }

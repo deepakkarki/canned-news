@@ -1,12 +1,19 @@
 'use strict';
 const models = require('fbm-shared/models');
+const unshorten = require('unshorten');
 const request = require('request-promise-native');
-const hoursBack = process.env.SOCIAL_COLLECTION_HOURS_BACK;
+const hoursBack = process.env.SUMMARIZER_COLLECTION_HOURS_BACK;
 
 async function run() {
   const entries = await getEntries();
 
-  return Promise.all(entries.map((entry) => {
+  return Promise.all(entries.map(async (entry) => {
+    const url = await new Promise((resolve) => {
+      unshorten(entry.url, resolve);
+    });
+    console.log(entry.url, url);
+    return url;
+    /*
     return request({
       uri: 'https://api.sharedcount.com/v1.0/',
       qs: {
@@ -23,6 +30,7 @@ async function run() {
         sharedcount_stats: result,
       });
     });
+    */
   }));
 }
 
@@ -34,12 +42,16 @@ function getEntries() {
       feedbin_published_at: {
         $gt: minDate
       }
-    }
+    },
+    order: [
+      ['feedbin_published_at', 'DESC']
+    ],
+    limit: 10,
   });
 }
 
 run().then((entries) => {
-  console.log("Collected social data from " + entries.length + " entries less than " + hoursBack + " hours old.");
+  console.log("Collected summaries from " + entries.length + " entries less than " + hoursBack + " hours old.");
   process.exit(0);
 }).catch(e => {
   console.error(e);

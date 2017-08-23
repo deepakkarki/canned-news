@@ -48,6 +48,10 @@ const Entry = sequelize.define('entry', {
   linkedin: Sequelize.INTEGER,
   facebook: Sequelize.INTEGER,
   sharedcount_stats: Sequelize.JSONB,
+  url_resolved_at: Sequelize.DATE,
+  summarized_at: Sequelize.DATE,
+  socialized_at: Sequelize.DATE,
+  image_extracted_at: Sequelize.DATE,
 }, {
   underscored: true,
   getterMethods: {

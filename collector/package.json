@@ -2,7 +2,7 @@
   "name": "fbm-collector",
   "private": true,
   "dependencies": {
-    "feedbin-nodejs": "github:karllhughes/feedbin-nodejs",
-    "fbm-shared": "file:../shared"
+    "fbm-shared": "file:../shared",
+    "feedbin-nodejs": "github:karllhughes/feedbin-nodejs"
   }
 }

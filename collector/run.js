@@ -1,14 +1,14 @@
 'use strict';
 const collect = require('./lib/collect');
 const db = require('./lib/db');
-const hoursBack = process.env.COLLECTION_HOURS_BACK;
-const perPage = 300;
+const hoursBack = process.env.HOURS_BACK;
+const perPage = process.env.RESULTS_PER_PAGE;
 
 // Setting up the data from the API
 const taggings = collect.tags();
 const subscriptions = collect.feeds();
 const entries = collect.entries({'params': {
-  // Retrieves entries posted in past hour
+  // Retrieves entries posted in past x hours
   'since': (new Date(new Date().getTime() - (hoursBack * 60 * 60 * 1000))).toISOString(),
   'per_page': perPage,
 }});

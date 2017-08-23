@@ -1,0 +1,8 @@
+{
+  "name": "fbm-url-resolver",
+  "private": true,
+  "dependencies": {
+    "fbm-shared": "file:../shared",
+    "unshorten": "0.0.2"
+  }
+}

@@ -1,9 +1,10 @@
 {
-  "name": "fbm-social",
+  "name": "fbm-summarizer",
   "private": true,
   "dependencies": {
     "fbm-shared": "file:../shared",
     "request": "^2.81.0",
-    "request-promise-native": "^1.0.4"
+    "request-promise-native": "^1.0.4",
+    "unshorten": "0.0.2"
   }
 }
