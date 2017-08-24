@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Nothing yet.
 
+## [1.2.0] - 2017-08-24
+
+### Added
+- Url resolver service to ensure we're getting the final resolved url for entries.
+- Summarizer which uses [Aylien](https://developer.aylien.com/) to summarize and retrieve full text content for articles.
+- Image extractor gets the URL for the most prominent image in each entry.
+
+### Changed
+- Renamed social to "socializer" for consistency.
+- Moved .env files into the directory for each service. 
+
 ## [1.1.0] - 2017-08-17
 
 ### Added

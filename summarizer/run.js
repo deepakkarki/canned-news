@@ -24,9 +24,19 @@ async function run() {
       },
       json: true,
     }).then(async (result) => {
+      let summary = entry.summary;
+      if (result && result.sentences && result.sentences.length) {
+        summary = result.sentences.join(' ');
+      }
+
+      let content = entry.content;
+      if (result && result.text && result.text.length) {
+        content = result.text;
+      }
+
       return await entry.update({
-        summary: result.sentences.join(' '),
-        content: result.text,
+        summary: summary,
+        content: content,
         summarized_at: (new Date()).toISOString(),
       });
     }).catch(err => {

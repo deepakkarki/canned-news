@@ -1,20 +1,30 @@
 # Blogs To Mail
 
-This project allows you to create newsletters from new activity in RSS feeds you follow. Here's [an example of an email sent by this project](https://www.blogstomail.com/emails/rJZJvn97db.html).
+This project automatically creates a daily email newsletter from new activity in the RSS feeds you follow. Here's [an example of an email generated and sent by this project](https://www.blogstomail.com/emails/rJZJvn97db.html).
 
 ## Why?
 
 I like RSS feeds and the [Feedbin Reader](https://feedbin.com/), but I also like getting a daily email summary of my news and blogs. I looked around a bit and didn't find a solution that would send me the latest posts from each of my tags every day, so I set this project up.
 
+## Features
+
+- Uses Feedbin to collect and store articles in a Postgres database.
+- Resolves the final URL for each article.
+- Summarizes article content using [Aylien's text analysis API](https://developer.aylien.com/).
+- Gets the number of social media interactions using the [SharedCount API](https://www.sharedcount.com/).
+- Gets an image for each entry.
+- Sends a daily email to you using the email from your Feedbin account.
+
 ## Development
 
 ### Requirements
 
-This project relies on a lot of external services. This makes it easy to build, but it's also a decent amount of work to get set up. At some point I'd like to make this easier, but it is what it is.
+This project relies on a lot of external services. This allows it to do a lot with very little code, but it's also a decent amount of work to get set up. At some point I'd like to make this easier, but here it is for now:
 
 - Feedbin - The whole project relies on you having a paid Feedbin account
 - Sendgrid - Sends emails
 - Amazon S3 - Hosts static HTML versions of your emails
+- Aylien - Text analysis
 - SharedCount - Aggregates social data about posts
 - Node/NPM - Setup scripts are run in NPM
 - Docker - Used for local development and deployment
@@ -25,26 +35,17 @@ This project relies on a lot of external services. This makes it easy to build, 
 This project includes several Node microservices:
 
 - **Collector** (`/collector`) - Responsible for collecting new entries from Feedbin every hour and updating the list of feeds for each of your tags.
-- **Social** (`/social`) - Grabs data daily from SharedCount about social activity on each article.
+- **URL Resolver** (`/url_resolver`) - Resolves any URL redirects from entries for improved extraction.
+- **Summarizer** (`/summarizer`) - Summarizes the article content.
+- **Image Extractor** (`/image_extractor`) - Extracts the dominant image url for each article.
+- **Socializer** (`/socializer`) - Grabs data from SharedCount about social activity on each article.
 - **Mailer** (`/mailer`) - Sends an email based on the preferences set for your newsletters in the `tags` table.
 
 You can find bash scripts for Docker in the `/docker` folder and a database schema file in the `/database` directory. There is also a `/shared` directory for shared Node scripts.
 
 ### Local Setup
 
-- Clone this repository.
-- Copy the `.env.example` file to `.env` and add your configuration info.
-  - You will need to have API keys for Amazon AWS, a bucket in S3, a Sendgrid API key, and a Feedbin account.
-  - You will also need to have a domain name pointed at your S3 bucket if you want to view the emails offline.
-  - The Hyper.sh credentials are only required for deploying to production. 
-- Build the Dockerfile for the collector: `npm run -s collector:local:build`.
-- Build the Dockerfile for the mailer: `npm run -s mailer:local:build`.
-- Start the database container: `npm run -s db:local:up`.
-- Run the migrations (first time only): `npm run -s db:local:migrate`.
-- Run the collector: `npm run -s collector:local:run`.
-- Run the mailer: `npm run -s mailer:local:run`.
-
-This will get you the latest the articles from your Feedbin account and compose an email to you.
+Coming soon!
 
 ### Testing
 
