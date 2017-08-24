@@ -22,6 +22,7 @@ async function run() {
         linkedin: result.LinkedIn,
         facebook: result.Facebook.total_count,
         sharedcount_stats: result,
+        socialized_at: (new Date()).toISOString(),
       });
     }).catch(err => {
       console.error(err.toString());
@@ -37,7 +38,10 @@ function getEntries() {
     where: {
       feedbin_published_at: {
         $gt: minDate
-      }
+      },
+      url_resolved_at: {
+        $ne: null
+      },
     }
   });
 }

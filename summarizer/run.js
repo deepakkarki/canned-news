@@ -1,8 +1,8 @@
 'use strict';
 const models = require('fbm-shared/models');
-const unshorten = require('unshorten');
 const request = require('request-promise-native');
-const hoursBack = process.env.SUMMARIZER_COLLECTION_HOURS_BACK;
+const hoursBack = process.env.HOURS_BACK;
+const summarizerUrl = 'https://api.aylien.com/api/v1/summarize';
 
 async function run() {
   const entries = await getEntries();
@@ -43,9 +43,6 @@ function getEntries() {
         $gt: minDate
       }
     },
-    order: [
-      ['feedbin_published_at', 'DESC']
-    ],
     limit: 10,
   });
 }
