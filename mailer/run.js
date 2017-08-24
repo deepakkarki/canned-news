@@ -1,5 +1,6 @@
 'use strict';
 const models = require('fbm-shared/models');
+const queries = require('./lib/queries');
 const Mailer = require('./lib/Mailer');
 const path = require('path');
 
@@ -11,7 +12,7 @@ async function run() {
   return Promise.all(tags.map(async tag => {
 
     // Get the entries that correspond to it
-    const entries = await getEntries(tag);
+    const entries = await queries.getEntries(tag);
 
     console.log(entries.length + " entries found for tag '" + tag.name + "'");
 
@@ -23,23 +24,6 @@ async function run() {
       });
     }
   }));
-}
-
-async function getEntries(tag) {
-  const hoursBack = ((tag.frequency ? tag.frequency : 1) * 24);
-  const minDate = (new Date(new Date().getTime() - (hoursBack * 60 * 60 * 1000))).toISOString();
-
-  return models.Entry.findAll({
-    where: {
-      feedbin_published_at: {
-        $gt: minDate
-      }
-    },
-    include: [{
-      model: models.Feed,
-      where: { tag_id: tag.id }
-    }]
-  });
 }
 
 function getOptions(tag) {
