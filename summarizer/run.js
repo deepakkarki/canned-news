@@ -2,35 +2,37 @@
 const models = require('fbm-shared/models');
 const request = require('request-promise-native');
 const hoursBack = process.env.HOURS_BACK;
+const summarizerAppId = process.env.AYLIEN_APP_ID;
+const summarizerKey = process.env.AYLIEN_KEY;
 const summarizerUrl = 'https://api.aylien.com/api/v1/summarize';
+const summarizerSentences = 3;
 
 async function run() {
   const entries = await getEntries();
 
   return Promise.all(entries.map(async (entry) => {
-    const url = await new Promise((resolve) => {
-      unshorten(entry.url, resolve);
-    });
-    console.log(entry.url, url);
-    return url;
-    /*
+
     return request({
-      uri: 'https://api.sharedcount.com/v1.0/',
+      uri: summarizerUrl,
       qs: {
         url: entry.url,
-        apikey: process.env.SHAREDCOUNT_API_KEY,
+        sentences_number: summarizerSentences,
+      },
+      headers: {
+        'X-AYLIEN-TextAPI-Application-ID': summarizerAppId,
+        'X-AYLIEN-TextAPI-Application-Key': summarizerKey,
       },
       json: true,
     }).then(async (result) => {
       return await entry.update({
-        stumbleupon: result.StumbleUpon,
-        pinterest: result.Pinterest,
-        linkedin: result.LinkedIn,
-        facebook: result.Facebook.total_count,
-        sharedcount_stats: result,
+        summary: result.sentences.join(' '),
+        content: result.text,
+        summarized_at: (new Date()).toISOString(),
       });
+    }).catch(err => {
+      console.error(err.toString());
+      return err;
     });
-    */
   }));
 }
 
@@ -41,14 +43,19 @@ function getEntries() {
     where: {
       feedbin_published_at: {
         $gt: minDate
-      }
+      },
+      url_resolved_at: {
+        $ne: null
+      },
+      summarized_at: {
+        $eq: null
+      },
     },
-    limit: 10,
   });
 }
 
 run().then((entries) => {
-  console.log("Collected summaries from " + entries.length + " entries less than " + hoursBack + " hours old.");
+  console.log("Summarized " + entries.length + " entries less than " + hoursBack + " hours old.");
   process.exit(0);
 }).catch(e => {
   console.error(e);
