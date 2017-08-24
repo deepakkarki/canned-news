@@ -29,6 +29,9 @@
     "summarizer:local:build": "docker build -t karllhughes/fbm-summarizer --build-arg project_dir=summarizer .",
     "summarizer:local:run": "docker run --rm --name fbm-summarizer --env-file $(pwd)/summarizer/.env -v $(pwd)/summarizer:/app --link fbm-postgres:postgres karllhughes/fbm-summarizer",
 
+    "image-extractor:local:build": "docker build -t karllhughes/fbm-image-extractor --build-arg project_dir=image_extractor .",
+    "image-extractor:local:run": "docker run --rm --name fbm-image-extractor --env-file $(pwd)/image_extractor/.env -v $(pwd)/image_extractor:/app --link fbm-postgres:postgres karllhughes/fbm-image-extractor",
+
     "url-resolver:local:build": "docker build -t karllhughes/fbm-url-resolver --build-arg project_dir=url_resolver .",
     "url-resolver:local:run": "docker run --rm --name fbm-url-resolver --env-file $(pwd)/url_resolver/.env -v $(pwd)/url_resolver:/app --link fbm-postgres:postgres karllhughes/fbm-url-resolver"
   }

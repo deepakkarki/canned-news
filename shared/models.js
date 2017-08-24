@@ -39,6 +39,7 @@ const Entry = sequelize.define('entry', {
   summary: Sequelize.TEXT,
   content: Sequelize.TEXT,
   url: Sequelize.TEXT,
+  image_url: Sequelize.TEXT,
   feedbin_published_at: Sequelize.DATE,
   feedbin_created_at: Sequelize.DATE,
   feedbin_feed_id: Sequelize.INTEGER,

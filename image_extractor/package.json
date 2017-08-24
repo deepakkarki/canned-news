@@ -1,0 +1,8 @@
+{
+  "name": "fbm-image-extractor",
+  "private": true,
+  "dependencies": {
+    "fbm-shared": "file:../shared",
+    "image-resolver": "^0.5.4"
+  }
+}
