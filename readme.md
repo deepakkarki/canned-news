@@ -52,23 +52,24 @@ Coming soon!
 Coming soon!
 
 ### Deployment
+
 Since this project is changing frequently, I haven't automated deployments yet. There are some scripts that make it slightly easier though.
 
-- After making updates, build the latest image for all the containers: `npm run -s app:build`
-- Push them to Docker Hub: `npm run -s app:push`.
+- After making updates, build the latest image for all the containers: `npm run app:build`
+- Push them to Docker Hub: `npm run app:push`.
 - Create a `.env.prod` file for each service.
-- Bring up the database container manually (only needs to be done the first time): `npm run -s db:prod:up`.
+- Bring up the database container manually (only needs to be done the first time): `npm run db:prod:up`.
 - Run any unrun sql files in the `/database` directory.
-- Run the deployer: `npm run -s app:deploy`.
+- Run the deployer: `npm run app:deploy`.
 
 You can then manually run each of the services to test them out:
 
-- Collector: `npm run -s collector:prod:run`
-- URL Resolver: `npm run -s url-resolver:prod:run`
-- Summarizer: `npm run -s summarizer:prod:run`
-- Image Extractor: `npm run -s image-extractor:prod:run`
-- Socializer: `npm run -s socializer:prod:run`
-- Mailer: `npm run -s mailer:prod:run`
+- Collector: `npm run collector:prod:run`
+- URL Resolver: `npm run url-resolver:prod:run`
+- Summarizer: `npm run summarizer:prod:run`
+- Image Extractor: `npm run image-extractor:prod:run`
+- Socializer: `npm run socializer:prod:run`
+- Mailer: `npm run mailer:prod:run`
 
 Once you verify they're working, you should use a cron job to automatically run these commands.
 
@@ -99,7 +100,7 @@ hyper cron create --minute=35 --hour=* --name fbm-image-extractor-cron --env-fil
 Run run the Socializer every day at 8:45 UTC:
 
 ```bash
-hyper cron create --minute=45 --hour=8 --name fbm-social-cron --env-file $(pwd)/socializer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-social
+hyper cron create --minute=45 --hour=8 --name fbm-socializer-cron --env-file $(pwd)/socializer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-socializer
 ```
 
 Finally, the mailer should be run every day at 9:00 UTC:
