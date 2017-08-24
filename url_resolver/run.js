@@ -1,25 +1,34 @@
 'use strict';
 const models = require('fbm-shared/models');
-const unshorten = require('unshorten');
+const request = require('request-promise-native');
+const urlParser = require('url');
 const hoursBack = process.env.HOURS_BACK;
+
 
 async function run() {
   const entries = await getEntries();
 
-  console.log(entries.length);
-  return Promise.all(entries.map(async (entry) => {
-    return await new Promise((resolve) => {
-      unshorten(entry.url, resolve);
-    }).then(async (url) => {
-        console.log(url);
-        return await entry.update({
-          url: url,
-          url_resolved_at: (new Date()).toISOString(),
-        });
+  return Promise.all(entries.map((entry) => {
+    const url = urlParser.parse(entry.url);
+
+    return request({
+      method: 'HEAD',
+      uri: url,
+      resolveWithFullResponse: true,
+    }).then(async (result) => {
+      let finalUrl = entry.url;
+      if (result.request.uri.href && result.request.uri.href.length) {
+        finalUrl = result.request.uri.href;
+      }
+      return await entry.update({
+        url: finalUrl,
+        url_resolved_at: (new Date()).toISOString(),
+      });
     }).catch(err => {
-      console.log(err);
+      console.error(err.toString());
       return err;
     });
+
   }));
 }
 
@@ -31,11 +40,9 @@ function getEntries() {
       feedbin_published_at: {
         $gt: minDate
       },
-      /*
       url_resolved_at: {
         $eq: null
       }
-      */
     },
   });
 }

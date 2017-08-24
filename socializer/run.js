@@ -23,6 +23,9 @@ async function run() {
         facebook: result.Facebook.total_count,
         sharedcount_stats: result,
       });
+    }).catch(err => {
+      console.error(err.toString());
+      return err;
     });
   }));
 }
