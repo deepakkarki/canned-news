@@ -52,33 +52,60 @@ Coming soon!
 Coming soon!
 
 ### Deployment
+Since this project is changing frequently, I haven't automated deployments yet. There are some scripts that make it slightly easier though.
 
-- Build and push the latest updates to Docker Hub: `npm run -s app:prod:build && npm run -s app:prod:push`.
-- Create a `.env.prod` file for production.
-- Run the deployer: `npm run -s app:prod:deploy`.
-- Bring up the database container (first time): `npm run -s db:prod:up`.
-- To manually run the collector script in production: `npm run -s collector:prod:run`.
-- To manually run the mailer script in production: `npm run -s mailer:prod:run`.
-- To manually run the social script in production: `npm run -s social:prod:run`.
+- After making updates, build the latest image for all the containers: `npm run -s app:build`
+- Push them to Docker Hub: `npm run -s app:push`.
+- Create a `.env.prod` file for each service.
+- Bring up the database container manually (only needs to be done the first time): `npm run -s db:prod:up`.
+- Run any unrun sql files in the `/database` directory.
+- Run the deployer: `npm run -s app:deploy`.
 
-Typically you will want to use a cron job to automatically run these commands.
+You can then manually run each of the services to test them out:
 
-Run the mailer daily at 9am UTC:
+- Collector: `npm run -s collector:prod:run`
+- URL Resolver: `npm run -s url-resolver:prod:run`
+- Summarizer: `npm run -s summarizer:prod:run`
+- Image Extractor: `npm run -s image-extractor:prod:run`
+- Socializer: `npm run -s socializer:prod:run`
+- Mailer: `npm run -s mailer:prod:run`
+
+Once you verify they're working, you should use a cron job to automatically run these commands.
+
+Run the collector every hour, getting all entries from Feedbin collected within the past 2 hours:
 
 ```bash
-hyper cron create --minute=0 --hour=9 --name fbm-mailer-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer
+hyper cron create --minute=5 --hour=* --name fbm-collector-cron --env-file $(pwd)/collector/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector
 ```
 
-And run the collector every hour:
+Run the URL Resolver every hour, a few minutes after the collector, getting all posts published in the past 25 hours:
 
 ```bash
-hyper cron create --minute=15 --hour=* --name fbm-collector-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector
+hyper cron create --minute=15 --hour=* --name fbm-url-resolver-cron --env-file $(pwd)/url_resolver/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-url-resolver
 ```
 
-And run the social collector every day:
+Run the Summarizer every hour, a few minutes after the URL Resolver, getting all posts published in the past 25 hours:
 
 ```bash
-hyper cron create --minute=45 --hour=8 --name fbm-social-cron --env-file .env.prod --link fbm-postgres-1:postgres karllhughes/fbm-social
+hyper cron create --minute=25 --hour=* --name fbm-summarizer-cron --env-file $(pwd)/summarizer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-summarizer
+```
+
+Run the Image Extractor every hour, a few minutes after the Summarizer, getting all posts published in the past 25 hours:
+
+```bash
+hyper cron create --minute=35 --hour=* --name fbm-image-extractor-cron --env-file $(pwd)/image_extractor/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-image-extractor
+```
+
+Run run the Socializer every day at 8:45 UTC:
+
+```bash
+hyper cron create --minute=45 --hour=8 --name fbm-social-cron --env-file $(pwd)/socializer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-social
+```
+
+Finally, the mailer should be run every day at 9:00 UTC:
+
+```bash
+hyper cron create --minute=0 --hour=9 --name fbm-mailer-cron --env-file $(pwd)/mailer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer
 ```
 
 ## Contributing

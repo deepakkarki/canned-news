@@ -1,13 +1,9 @@
 {
   "name": "feedbin-mailer",
   "scripts": {
-    "app:local:build": "bash docker/build.local.sh",
-    "app:local:push": "docker push karllhughes/fbm-mailer && docker push karllhughes/fbm-collector && docker push karllhughes/fbm-social",
-
-    "app:prod:deploy": "docker run --rm --env-file $(pwd)/.env.prod -v $(pwd)/docker:/docker chickenzord/hyper sh /docker/deploy.hyper.sh",
-    "collector:prod:run": "hyper run --size s3 --name fbm-collector-1 --rm --env-file $(pwd)/collector/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector",
-    "mailer:prod:run": "hyper run --size s3 --name fbm-mailer-1 --rm --env-file $(pwd)/mailer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer",
-    "socializer:prod:run": "hyper run --size s3 --name fbm-socializer-1 --rm --env-file $(pwd)/socializer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-socializer",
+    "app:build": "bash docker/build.local.sh",
+    "app:push": "bash docker/push.local.sh",
+    "app:deploy": "docker run --rm --env-file $(pwd)/.env.prod -v $(pwd)/docker:/docker chickenzord/hyper sh /docker/deploy.hyper.sh",
 
     "db:prod:up": "sh docker/dbup.hyper.sh",
     "db:prod:migrate": "hyper exec -it fbm-postgres-1 psql -U postgres -a -f /database/schema.sql",
@@ -19,20 +15,26 @@
 
     "collector:local:build": "docker build -t karllhughes/fbm-collector --build-arg project_dir=collector .",
     "collector:local:run": "docker run --rm --name fbm-collector --env-file $(pwd)/collector/.env -v $(pwd)/collector:/app --link fbm-postgres:postgres karllhughes/fbm-collector",
-
-    "mailer:local:build": "docker build -t karllhughes/fbm-mailer --build-arg project_dir=mailer .",
-    "mailer:local:run": "docker run --rm --name fbm-mailer --env-file $(pwd)/mailer/.env -v $(pwd)/mailer:/app --link fbm-postgres:postgres karllhughes/fbm-mailer",
-
-    "socializer:local:build": "docker build -t karllhughes/fbm-socializer --build-arg project_dir=socializer .",
-    "socializer:local:run": "docker run --rm --name fbm-social --env-file $(pwd)/socializer/.env -v $(pwd)/socializer:/app --link fbm-postgres:postgres karllhughes/fbm-socializer",
-
-    "summarizer:local:build": "docker build -t karllhughes/fbm-summarizer --build-arg project_dir=summarizer .",
-    "summarizer:local:run": "docker run --rm --name fbm-summarizer --env-file $(pwd)/summarizer/.env -v $(pwd)/summarizer:/app --link fbm-postgres:postgres karllhughes/fbm-summarizer",
+    "collector:prod:run": "hyper run --size s3 --rm --env-file $(pwd)/collector/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-collector",
 
     "image-extractor:local:build": "docker build -t karllhughes/fbm-image-extractor --build-arg project_dir=image_extractor .",
     "image-extractor:local:run": "docker run --rm --name fbm-image-extractor --env-file $(pwd)/image_extractor/.env -v $(pwd)/image_extractor:/app --link fbm-postgres:postgres karllhughes/fbm-image-extractor",
+    "image-extractor:prod:run": "hyper run --size s3 --rm --env-file $(pwd)/image_extractor/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-image-extractor",
+
+    "mailer:local:build": "docker build -t karllhughes/fbm-mailer --build-arg project_dir=mailer .",
+    "mailer:local:run": "docker run --rm --name fbm-mailer --env-file $(pwd)/mailer/.env -v $(pwd)/mailer:/app --link fbm-postgres:postgres karllhughes/fbm-mailer",
+    "mailer:prod:run": "hyper run --size s3 --rm --env-file $(pwd)/mailer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer",
+
+    "socializer:local:build": "docker build -t karllhughes/fbm-socializer --build-arg project_dir=socializer .",
+    "socializer:local:run": "docker run --rm --name fbm-social --env-file $(pwd)/socializer/.env -v $(pwd)/socializer:/app --link fbm-postgres:postgres karllhughes/fbm-socializer",
+    "socializer:prod:run": "hyper run --size s3 --rm --env-file $(pwd)/socializer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-socializer",
+
+    "summarizer:local:build": "docker build -t karllhughes/fbm-summarizer --build-arg project_dir=summarizer .",
+    "summarizer:local:run": "docker run --rm --name fbm-summarizer --env-file $(pwd)/summarizer/.env -v $(pwd)/summarizer:/app --link fbm-postgres:postgres karllhughes/fbm-summarizer",
+    "summarizer:prod:run": "hyper run --size s3 --rm --env-file $(pwd)/summarizer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-summarizer",
 
     "url-resolver:local:build": "docker build -t karllhughes/fbm-url-resolver --build-arg project_dir=url_resolver .",
-    "url-resolver:local:run": "docker run --rm --name fbm-url-resolver --env-file $(pwd)/url_resolver/.env -v $(pwd)/url_resolver:/app --link fbm-postgres:postgres karllhughes/fbm-url-resolver"
+    "url-resolver:local:run": "docker run --rm --name fbm-url-resolver --env-file $(pwd)/url_resolver/.env -v $(pwd)/url_resolver:/app --link fbm-postgres:postgres karllhughes/fbm-url-resolver",
+    "url-resolver:prod:run": "hyper run --size s3 --rm --env-file $(pwd)/url_resolver/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-url-resolver"
   }
 }

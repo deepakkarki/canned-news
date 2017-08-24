@@ -26,8 +26,7 @@ async function run() {
 }
 
 async function getEntries(tag) {
-  // Add 1-hour margin of error to query.
-  const hoursBack = ((tag.frequency ? tag.frequency : 1) * 24) + 1;
+  const hoursBack = ((tag.frequency ? tag.frequency : 1) * 24);
   const minDate = (new Date(new Date().getTime() - (hoursBack * 60 * 60 * 1000))).toISOString();
 
   return models.Entry.findAll({
