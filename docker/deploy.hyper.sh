@@ -2,9 +2,9 @@
 
 hyper config --accesskey $HYPER_ACCESS --secretkey $HYPER_SECRET
 
-docker pull karllhughes/fbm-collector
-docker pull karllhughes/fbm-image-extractor
-docker pull karllhughes/fbm-mailer
-docker pull karllhughes/fbm-socializer
-docker pull karllhughes/fbm-summarizer
-docker pull karllhughes/fbm-url-resolver
+hyper pull karllhughes/fbm-collector
+hyper pull karllhughes/fbm-image-extractor
+hyper pull karllhughes/fbm-mailer
+hyper pull karllhughes/fbm-socializer
+hyper pull karllhughes/fbm-summarizer
+hyper pull karllhughes/fbm-url-resolver
