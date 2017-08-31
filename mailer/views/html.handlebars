@@ -483,9 +483,9 @@
                     {{#each entries}}
                     <!-- BEGIN ARTICLE // -->
                     <br/>
-                      <h2><a href="{{ this.url }}" style="text-decoration: none;">{{this.title}}</a></h2>
+                      <h2><a href="{{ this.url }}" style="text-decoration: none;" target="_blank">{{this.title}}</a></h2>
                     <h4>
-                      Published on <a href="{{ this.feed.url }}">{{this.feed.title}}</a>,
+                      Published on <a href="{{ this.feed.url }}" target="_blank">{{this.feed.title}}</a>,
                       {{this.feedbin_published_at}}
                     </h4>
                     {{this.summary}}

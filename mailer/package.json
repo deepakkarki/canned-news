@@ -4,9 +4,12 @@
   "dependencies": {
     "aws-sdk": "^2.102.0",
     "email-templates": "^2.7.1",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
     "fbm-shared": "file:../shared",
     "handlebars": "^3.0.3",
     "moment": "^2.18.1",
+    "nodemon": "^1.11.0",
     "sendgrid": "^5.0.1",
     "shortid": "^2.2.8"
   }

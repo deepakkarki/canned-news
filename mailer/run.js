@@ -1,8 +1,8 @@
 'use strict';
+const mail = require('./lib/mail');
 const models = require('fbm-shared/models');
 const queries = require('./lib/queries');
-const Mailer = require('./lib/Mailer');
-const path = require('path');
+const shortId = require('shortid');
 
 async function run() {
   // Get all the tags
@@ -18,26 +18,19 @@ async function run() {
 
     // Compose and send the email
     if (entries && entries.length) {
-      const mailer = new Mailer(getOptions(tag));
-      return new Promise((resolve) => {
-        mailer.send(entries, resolve);
-      });
+      // Generate an id
+      const emailId = shortId.generate();
+
+      // Generate the email
+      const email = await mail.generate(tag, entries, emailId);
+
+      // Save the html to S3
+      await mail.save(email.html, emailId);
+
+      // Send the email through sendgrid
+      return mail.send(email, emailId);
     }
   }));
-}
-
-function getOptions(tag) {
-  return {
-    tagName: tag.name,
-    tagDescription: tag.description,
-    tagImage: tag.image_url,
-    baseUrl: process.env.BASE_URL + 'emails/',
-    recipientEmail: process.env.FEEDBIN_USERNAME,
-    senderEmail: process.env.SENDER_EMAIL,
-    senderName: process.env.SENDER_NAME,
-    templateDirectory: path.join(__dirname, 'templates', 'daily'),
-    sendgridApiKey: process.env.SENDGRID_API_KEY,
-  };
 }
 
 run().then(() => {

@@ -32,4 +32,8 @@ async function getEntries(tag) {
   });
 }
 
-module.exports = { getEntries };
+async function getTag(id) {
+  return models.Tag.findById(id);
+}
+
+module.exports = { getEntries, getTag };

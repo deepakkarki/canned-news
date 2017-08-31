@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-- Nothing yet.
+- New serve.js file to preview/edit emails.
+
+### Changed
+- Ordering entries by popularity in each newsletter.
 
 ## [1.2.0] - 2017-08-24
 

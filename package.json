@@ -24,6 +24,8 @@
     "mailer:local:build": "docker build -t karllhughes/fbm-mailer --build-arg project_dir=mailer .",
     "mailer:local:run": "docker run --rm --name fbm-mailer --env-file $(pwd)/mailer/.env -v $(pwd)/mailer:/app --link fbm-postgres:postgres karllhughes/fbm-mailer",
     "mailer:prod:run": "hyper run --size s3 --rm --env-file $(pwd)/mailer/.env.prod --link fbm-postgres-1:postgres karllhughes/fbm-mailer",
+    "mailer:local:serve": "docker run --rm -d --name fbm-server --env-file $(pwd)/mailer/.env -v $(pwd)/mailer:/app -p 3000:3000 --link fbm-postgres:postgres karllhughes/fbm-mailer node_modules/.bin/nodemon serve.js",
+    "mailer:local:stop": "docker stop fbm-server",
 
     "socializer:local:build": "docker build -t karllhughes/fbm-socializer --build-arg project_dir=socializer .",
     "socializer:local:run": "docker run --rm --name fbm-social --env-file $(pwd)/socializer/.env -v $(pwd)/socializer:/app --link fbm-postgres:postgres karllhughes/fbm-socializer",
