@@ -1,6 +1,7 @@
 const models = require('fbm-shared/models');
 
 async function getEntries(tag) {
+  const maxResults = 10;
   const hoursBack = ((tag.frequency ? tag.frequency : 1) * 24);
   const minDate = (new Date(new Date().getTime() - (hoursBack * 60 * 60 * 1000))).toISOString();
 
@@ -29,6 +30,7 @@ async function getEntries(tag) {
     order: [
       [models.sequelize.literal('"total_shares"'), 'DESC', 'NULLS LAST'],
     ],
+    limit: maxResults,
   });
 }
 

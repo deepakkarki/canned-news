@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-- New serve.js file to preview/edit emails.
+- New serve.js file in mailer to preview/edit emails.
+- Top image now dynamically selected from the day's results.
 
 ### Changed
 - Ordering entries by popularity in each newsletter.
+- Limited each email to 10 news items per send.
 
 ## [1.2.0] - 2017-08-24
 
