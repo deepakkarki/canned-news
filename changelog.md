@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+- Nothing yet.
+
+## [1.3.0] - 2017-09-07
+
+### Added
 - New serve.js file in mailer to preview/edit emails.
 - Top image now dynamically selected from the day's results.
 

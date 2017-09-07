@@ -1,5 +1,9 @@
 'use strict';
 const moment = require('moment');
+const backupImage = 'https://i.imgur.com/Wx6auJ8.jpg';
+const baseUrl = process.env.BASE_URL;
+const siteName = 'Canned News';
+const unsubLink = 'http://karllhughes.us15.list-manage.com/unsubscribe?u=4eba8b205fc13380cd3e6f3fc&id=8360d0442f';
 
 function viewParameters(tag, entries, link = "") {
   return {
@@ -10,7 +14,10 @@ function viewParameters(tag, entries, link = "") {
     link: link,
     entries: entries,
     date: moment().format("dddd, MMMM Do"),
-    layout: false
+    layout: false,
+    homepage_url: baseUrl,
+    homepage_name: siteName,
+    unsubscribe: unsubLink,
   };
 }
 
@@ -24,7 +31,7 @@ function getFeaturedImage(tag, entries) {
   } else if (tag.image_url) {
     return tag.image_url;
   } else {
-    return 'https://i.imgur.com/Wx6auJ8.jpg';
+    return backupImage;
   }
 }
 
