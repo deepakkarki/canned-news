@@ -1,6 +1,6 @@
-# Blogs To Mail
+# Canned News
 
-This project automatically creates a daily email newsletter from new activity in the RSS feeds you follow. Here's [an example of an email generated and sent by this project](https://www.blogstomail.com/emails/rJZJvn97db.html).
+This project automatically creates a daily email newsletter from new activity in the RSS feeds you follow. Here's [an example of an email generated and sent by this project](https://archive.canned.news/emails/ryaoL8k9-.html).
 
 ## Why?
 
@@ -59,7 +59,7 @@ Since this project is changing frequently, I haven't automated deployments yet. 
 - Push them to Docker Hub: `npm run app:push`.
 - Create a `.env.prod` file for each service.
 - Bring up the database container manually (only needs to be done the first time): `npm run db:prod:up`.
-- Run any unrun sql files in the `/database` directory.
+- Run any sql files in the `/database` directory.
 - Run the deployer: `npm run app:deploy`.
 
 You can then manually run each of the services to test them out:
