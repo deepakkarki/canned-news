@@ -1,8 +1,8 @@
 const models = require('fbm-shared/models');
 
-async function getEntries(tag) {
+async function getEntries(newsletter) {
   const maxResults = 10;
-  const hoursBack = ((tag.frequency ? tag.frequency : 1) * 24);
+  const hoursBack = ((newsletter.frequency ? newsletter.frequency : 1) * 24);
   const minDate = (new Date(new Date().getTime() - (hoursBack * 60 * 60 * 1000))).toISOString();
 
   return models.Entry.findAll({
@@ -25,7 +25,7 @@ async function getEntries(tag) {
     },
     include: [{
       model: models.Feed,
-      where: { tag_id: tag.id }
+      where: { newsletter_id: newsletter.id }
     }],
     order: [
       [models.sequelize.literal('"total_shares"'), 'DESC', 'NULLS LAST'],
@@ -34,8 +34,8 @@ async function getEntries(tag) {
   });
 }
 
-async function getTag(id) {
-  return models.Tag.findById(id);
+async function getNewsletter(id) {
+  return models.Newsletter.findById(id);
 }
 
-module.exports = { getEntries, getTag };
+module.exports = { getEntries, getNewsletter };

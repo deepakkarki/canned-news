@@ -4,7 +4,6 @@ const request = require('request-promise-native');
 const urlParser = require('url');
 const hoursBack = process.env.HOURS_BACK;
 
-
 async function run() {
   const entries = await getEntries();
 

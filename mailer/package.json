@@ -8,9 +8,10 @@
     "express-handlebars": "^3.0.0",
     "fbm-shared": "file:../shared",
     "handlebars": "^3.0.3",
+    "mailchimp-api-v3": "^1.7.0",
+    "mandrill-api": "^1.0.45",
     "moment": "^2.18.1",
     "nodemon": "^1.11.0",
-    "sendgrid": "^5.0.1",
     "shortid": "^2.2.8"
   }
 }

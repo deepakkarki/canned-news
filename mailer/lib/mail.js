@@ -6,19 +6,18 @@ const path = require('path');
 const EmailTemplate = require('email-templates').EmailTemplate;
 const templateDirectory = path.join(__dirname, '../views');
 const s3 = new AWS.S3();
-const sendgrid = require('sendgrid').mail;
 const viewParameters = require('./view-parameters');
+const mandrillLibrary = require('mandrill-api/mandrill');
+const mandrillApiKey = process.env.MANDRILL_API_KEY;
 const baseUrl = process.env.ARCHIVE_URL;
 const bucket = process.env.AWS_BUCKET;
-const sendgridApiKey = process.env.SENDGRID_API_KEY;
 const emailSenderEmail = process.env.SENDER_EMAIL;
 const emailSenderName = process.env.SENDER_NAME;
-const emailReicipientEmail = process.env.FEEDBIN_USERNAME;
 
-function generate(tag, entries, emailId) {
+function generate(newsletter, entries, emailId) {
   const email = new EmailTemplate(templateDirectory);
 
-  return email.render(viewParameters(tag, entries, generateEmailPath(emailId)));
+  return email.render(viewParameters(newsletter, entries, generateEmailPath(emailId)));
 }
 
 function save(html, emailId) {
@@ -35,21 +34,20 @@ function save(html, emailId) {
   });
 }
 
-function send(emailObject) {
-  if (sendgridApiKey) {
-    let fromEmail = new sendgrid.Email(emailSenderEmail, emailSenderName);
-    let toEmail = new sendgrid.Email(emailReicipientEmail);
-    let content = new sendgrid.Content('text/html', emailObject.html);
-    let mail = new sendgrid.Mail(fromEmail, emailObject.subject, toEmail, content);
+function send(emailObject, members) {
+  if (mandrillApiKey) {
+    const mandrill = new mandrillLibrary.Mandrill(mandrillApiKey);
+    const message = {
+      "html": emailObject.html,
+      "subject": emailObject.subject,
+      "from_email": emailSenderEmail,
+      "from_name": emailSenderName,
+      "to": members,
+    };
 
-    let sg = require('sendgrid')(sendgridApiKey);
-    let request = sg.emptyRequest({
-      method: 'POST',
-      path: '/v3/mail/send',
-      body: mail.toJSON()
-    });
-
-    return new Promise((resolve) => sg.API(request, resolve)).then(result => {
+    return new Promise((resolve) => {
+      return mandrill.messages.send({"message": message, "async": true}, resolve);
+    }).then(result => {
       console.log(emailObject.subject + " sent");
       return result;
     });

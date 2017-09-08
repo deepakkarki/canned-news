@@ -9,11 +9,11 @@ const app = express();
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
-app.get('/tags/:tagId', async function (req, res) {
-  const tag = await queries.getTag(req.params['tagId']);
-  const entries = await queries.getEntries(tag);
+app.get('/newsletters/:id', async function (req, res) {
+  const newsletter = await queries.getNewsletter(req.params['id']);
+  const entries = await queries.getEntries(newsletter);
 
-  res.render('html', viewParameters(tag, entries));
+  res.render('html', viewParameters(newsletter, entries));
 });
 
 app.listen(3000, function () {

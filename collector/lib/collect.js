@@ -5,7 +5,7 @@ const feedbin = new (require('feedbin-nodejs'))(
   process.env.FEEDBIN_PASSWORD
 );
 
-function tags(options) {
+function taggings(options) {
   return feedbin.taggings.getAll(options);
 }
 
@@ -17,4 +17,4 @@ function entries(options) {
   return feedbin.entries.getAll(options);
 }
 
-module.exports = { tags, feeds, entries };
+module.exports = { taggings, feeds, entries };

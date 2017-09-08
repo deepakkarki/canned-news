@@ -7,12 +7,15 @@ const sequelize = new Sequelize('postgres', 'postgres', process.env.POSTGRES_PAS
 });
 const moment = require('moment');
 
-const Tag = sequelize.define('tag', {
+const Newsletter = sequelize.define('newsletter', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
   name: Sequelize.STRING,
   frequency: Sequelize.STRING,
   image_url: Sequelize.STRING,
   description: Sequelize.TEXT,
+  mc_list_id: Sequelize.STRING,
+  mc_interest_category_id: Sequelize.STRING,
+  mc_interest_id: Sequelize.STRING,
 }, {
   underscored: true,
   timestamps: true,
@@ -25,7 +28,7 @@ const Feed = sequelize.define('feed', {
   url: Sequelize.TEXT,
   feed_url: Sequelize.TEXT,
   feedbin_id: Sequelize.INTEGER,
-  tag_id: Sequelize.INTEGER,
+  newsletter_id: Sequelize.INTEGER,
 }, {
   underscored: true,
   timestamps: true,
@@ -64,4 +67,4 @@ const Entry = sequelize.define('entry', {
 
 Entry.belongsTo(Feed, {foreignKey: 'feedbin_feed_id', targetKey: 'feedbin_id'});
 
-module.exports = { Tag, Feed, Entry, sequelize };
+module.exports = { Newsletter, Feed, Entry, sequelize };

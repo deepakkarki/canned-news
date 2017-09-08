@@ -5,7 +5,7 @@ const hoursBack = process.env.HOURS_BACK;
 const perPage = process.env.RESULTS_PER_PAGE;
 
 // Setting up the data from the API
-const taggings = collect.tags();
+const taggings = collect.taggings();
 const subscriptions = collect.feeds();
 const entries = collect.entries({'params': {
   // Retrieves entries posted in past x hours
@@ -16,7 +16,7 @@ const entries = collect.entries({'params': {
 function run() {
   return Promise.all([
     taggings.then(results => {
-      return db.transformAndSaveTags(results).then(tags => {
+      return db.transformAndSaveTaggings(results).then(() => {
         return subscriptions.then(feeds => db.transformAndSaveFeeds(feeds));
       });
     }),

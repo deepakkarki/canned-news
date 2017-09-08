@@ -9,15 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Nothing yet.
 
-## [1.3.0] - 2017-09-07
+## [1.3.0] - 2017-09-08
 
 ### Added
 - New serve.js file in mailer to preview/edit emails.
 - Top image now dynamically selected from the day's results.
+- Sending to list in Mailchimp rather than one individual.
 
 ### Changed
 - Ordering entries by popularity in each newsletter.
 - Limited each email to 10 news items per send.
+- Switched to Mandrill.
 
 ## [1.2.0] - 2017-08-24
 
